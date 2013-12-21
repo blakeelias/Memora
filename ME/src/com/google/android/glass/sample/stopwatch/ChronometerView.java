@@ -16,9 +16,12 @@
 
 package com.google.android.glass.sample.stopwatch;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.provider.MediaStore;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
@@ -43,6 +46,7 @@ public class ChronometerView extends FrameLayout {
 
     // About 24 FPS.
     private static final long DELAY_MILLIS = 41;
+    private static final int TAKE_PICTURE_REQUEST = 1;
 
     private final TextView mMinuteView;
     private final TextView mSecondView;
@@ -54,6 +58,7 @@ public class ChronometerView extends FrameLayout {
     private boolean mRunning;
 
     private long mBaseMillis;
+    private long mLastPhotoMillis = -1;
 
     private ChangeListener mChangeListener;
 
@@ -181,5 +186,19 @@ public class ChronometerView extends FrameLayout {
         if (mChangeListener != null) {
             mChangeListener.onChange();
         }
+        
+        if (timeToTakePicture(millis, 5000)) {
+        	takePicture();
+        	mLastPhotoMillis = millis;
+        }
     }
+    
+    private boolean timeToTakePicture(long millis, int interval) {
+		return millis - mLastPhotoMillis > interval;
+	}
+
+	private void takePicture() {
+	    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+	    ((Activity)getContext()).startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+	}
 }

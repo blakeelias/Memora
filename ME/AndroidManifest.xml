@@ -18,10 +18,14 @@
     package="com.google.android.glass.sample.stopwatch"
     android:versionCode="2"
     android:versionName="1.0" >
+    
+     <uses-feature android:name="android.hardware.camera.any"
+                  android:required="true" />
 
     <uses-sdk
         android:minSdkVersion="15"
         android:targetSdkVersion="15" />
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:allowBackup="true"

@@ -196,10 +196,12 @@ public class ChronometerView extends FrameLayout {
     }
     
     private boolean timeToTakePicture(long millis, int interval) {
-		return millis - mLastPhotoMillis > interval;
+    	Log.d("Picture", "" + millis + ", " + mLastPhotoMillis);
+		return SystemClock.elapsedRealtime() - mLastPhotoMillis > interval;
 	}
 
 	private void takePicture() {
+		Log.d("Picture", "Take Pic");
 	    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 	    ((Activity)getContext()).startActivityForResult(intent, TAKE_PICTURE_REQUEST);
 	}

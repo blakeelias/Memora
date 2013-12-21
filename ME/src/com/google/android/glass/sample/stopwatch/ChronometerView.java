@@ -23,6 +23,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -175,6 +176,7 @@ public class ChronometerView extends FrameLayout {
      */
     private void updateText() {
         long millis = SystemClock.elapsedRealtime() - mBaseMillis;
+        long photoMillis = millis;
         // Cap chronometer to one hour.
         millis %= TimeUnit.HOURS.toMillis(1);
 
@@ -187,9 +189,9 @@ public class ChronometerView extends FrameLayout {
             mChangeListener.onChange();
         }
         
-        if (timeToTakePicture(millis, 5000)) {
+        if (timeToTakePicture(photoMillis, 5000)) {
         	takePicture();
-        	mLastPhotoMillis = millis;
+        	mLastPhotoMillis = photoMillis;
         }
     }
     

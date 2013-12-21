@@ -19,6 +19,7 @@ package com.google.android.glass.sample.stopwatch;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.provider.MediaStore;
@@ -203,7 +204,7 @@ public class ChronometerView extends FrameLayout {
 	private void takePicture() {
 		Log.d("Picture", "Take Pic");
 	    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-	    getContext().startActivity(intent);
-	    //(getContext()).startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+	    Bundle options = new Bundle();
+	    getContext().startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
 	}
 }

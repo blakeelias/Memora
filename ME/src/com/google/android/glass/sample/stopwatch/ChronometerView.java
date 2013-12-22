@@ -191,7 +191,7 @@ public class ChronometerView extends FrameLayout {
         }
         
         if (timeToTakePicture(photoMillis, 5000)) {
-        	takePicture();
+        	//takePicture();
         	mLastPhotoMillis = photoMillis;
         }
     }

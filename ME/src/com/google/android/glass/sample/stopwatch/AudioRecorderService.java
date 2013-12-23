@@ -1,9 +1,9 @@
 package com.google.android.glass.sample.stopwatch;
 
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-
 import android.app.Service;
 import android.content.Intent;
 import android.media.AudioFormat;
@@ -17,42 +17,45 @@ public class AudioRecorderService extends Service{
 	
 	private static final String LOG_TAG = "AudioRecordTest";
 
-	private static final int RECORDER_SAMPLERATE = 8000;
-	private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
+	//private static final int RECORDER_SAMPLERATE = 8000;
+	//private static final int RECORDER_CHANNELS = AudioFormat.CHANNEL_IN_MONO;
 	private static final int RECORDER_AUDIO_ENCODING = AudioFormat.ENCODING_PCM_16BIT;
-	private AudioRecord recorder = null;
 	
-	int BufferElements2Rec = 1024; // want to play 2048 (2K) since 2 bytes we use only 1024
+	int BufferElements2Rec = 1024 * 8 * 20; // want to play 2048 (2K) since 2 bytes we use only 1024
 	int BytesPerElement = 2; // 2 bytes in 16bit format
 
+	
+	private final int channels = AudioFormat.CHANNEL_IN_MONO;
+	//TODO Implement logic to determine number of channels.
+	private final int numChannels = 1; //This is hardcoded because I am using 1 channel. 
+    private final long longSampleRate = 8000;
+    private int bitsPerSample= 16;
+    private byte RECORDER_BPP = 16;
+    private int byteRate = (int)longSampleRate * channels * (int)(RECORDER_BPP)/8;
+    private int totalAudioLen = BufferElements2Rec;//clipData.length;
+    private int totalDataLen = (totalAudioLen * channels * bitsPerSample / 8) + 36;
+	
+	private AudioRecord recorder = null;
+	
+	
+	
+	
 	private void startRecording() {
-
+		
 	    recorder = new AudioRecord(MediaRecorder.AudioSource.MIC,
-	            RECORDER_SAMPLERATE, RECORDER_CHANNELS,
+	    		(int)longSampleRate, channels,
 	            RECORDER_AUDIO_ENCODING, BufferElements2Rec * BytesPerElement);
 
 	    recorder.startRecording();
 	}
 
-	//convert short to byte
-	private byte[] short2byte(short[] sData) {
-	    int shortArrsize = sData.length;
-	    byte[] bytes = new byte[shortArrsize * 2];
-	    for (int i = 0; i < shortArrsize; i++) {
-	        bytes[i * 2] = (byte) (sData[i] & 0x00FF);
-	        bytes[(i * 2) + 1] = (byte) (sData[i] >> 8);
-	        sData[i] = 0;
-	    }
-	    return bytes;
-
-	}
-
 	private void writeAudioDataToFile() {
-	    // Write the output audio in byte
-
 	    String filePath = AudioFileName();
-	    short sData[] = new short[BufferElements2Rec];
-
+	    byte clipData[] = new byte[BufferElements2Rec * BytesPerElement];
+	    byte header[] = new byte[44];
+	    byte wavFile[] = new byte[clipData.length + header.length];
+	    
+	    //TODO: Wrap the FileOutputStream in a BufferedOutputStream (Not sure why, but it's recommended by Eclipse)
 	    FileOutputStream os = null;
 	    try {
 	        os = new FileOutputStream(filePath);
@@ -60,15 +63,58 @@ public class AudioRecorderService extends Service{
 	        e.printStackTrace();
 	    }
 
-        // gets the voice output from microphone to byte format
+        header[0] = 'R';  // RIFF/WAVE header
+        header[1] = 'I';
+        header[2] = 'F';
+        header[3] = 'F';
+        header[4] = (byte) (totalDataLen & 0xff);
+        header[5] = (byte) ((totalDataLen >> 8) & 0xff);
+        header[6] = (byte) ((totalDataLen >> 16) & 0xff);
+        header[7] = (byte) ((totalDataLen >> 24) & 0xff);
+        header[8] = 'W';
+        header[9] = 'A';
+        header[10] = 'V';
+        header[11] = 'E';
+        header[12] = 'f';  // 'fmt ' chunk
+        header[13] = 'm';
+        header[14] = 't';
+        header[15] = ' ';
+        header[16] = 16;  // 4 bytes: size of 'fmt ' chunk
+        header[17] = 0;
+        header[18] = 0;
+        header[19] = 0;
+        header[20] = 1;  // format = 1
+        header[21] = 0;
+        header[22] = (byte) numChannels;
+        header[23] = 0;
+        header[24] = (byte) (longSampleRate & 0xff);
+        header[25] = (byte) ((longSampleRate >> 8) & 0xff);
+        header[26] = (byte) ((longSampleRate >> 16) & 0xff);
+        header[27] = (byte) ((longSampleRate >> 24) & 0xff);
+        header[28] = (byte) (byteRate & 0xff);
+        header[29] = (byte) ((byteRate >> 8) & 0xff);
+        header[30] = (byte) ((byteRate >> 16) & 0xff);
+        header[31] = (byte) ((byteRate >> 24) & 0xff);
+        header[32] = (byte) (2 * 16 / 8);  // block align\
+        header[33] = 0;
+        header[34] = RECORDER_BPP;  // bits per sample
+        header[35] = 0;
+        header[36] = 'd';
+        header[37] = 'a';
+        header[38] = 't';
+        header[39] = 'a';
+        header[40] = (byte) (totalAudioLen & 0xff);
+        header[41] = (byte) ((totalAudioLen >> 8) & 0xff);
+        header[42] = (byte) ((totalAudioLen >> 16) & 0xff);
+        header[43] = (byte) ((totalAudioLen >> 24) & 0xff);
 
-        recorder.read(sData, 0, BufferElements2Rec);
-        System.out.println("Short wirting to file" + sData.toString());
+	    recorder.read(clipData, 0, BufferElements2Rec*2); //Added the *2
+	    
+	    System.arraycopy(header, 0, wavFile, 0, header.length);
+	    System.arraycopy(clipData, 0, wavFile, header.length, clipData.length);
+	    
         try {
-            // // writes the data to file from buffer
-            // // stores the voice buffer
-            byte bData[] = short2byte(sData);
-            os.write(bData, 0, BufferElements2Rec * BytesPerElement);
+            os.write(wavFile, 0, wavFile.length);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -91,7 +137,7 @@ public class AudioRecorderService extends Service{
 	
 	private String AudioFileName() {
 		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".pcm");
+        mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".wav");
         Log.d(LOG_TAG, mFileName);
         return mFileName;
     }

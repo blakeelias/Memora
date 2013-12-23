@@ -45,8 +45,8 @@ public class StopwatchService extends Service {
     public void onCreate() {
         super.onCreate();
         mTimelineManager = TimelineManager.from(this);
-        //AudioRecorderIntent = new Intent(this, AudioRecorderService.class);
-        //startService(AudioRecorderIntent);
+        AudioRecorderIntent = new Intent(this, AudioRecorderService.class);
+        startService(AudioRecorderIntent);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class StopwatchService extends Service {
             mLiveCard.unpublish();
             mLiveCard = null;
         }
-        //stopService(AudioRecorderIntent);
+        stopService(AudioRecorderIntent);
         super.onDestroy();
     }
 }

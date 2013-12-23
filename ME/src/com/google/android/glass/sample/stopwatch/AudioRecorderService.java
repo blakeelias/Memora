@@ -4,7 +4,11 @@ import java.io.IOException;
 
 import android.app.Service;
 import android.content.Intent;
+import android.media.AudioFormat;
+import android.media.AudioRecord;
 import android.media.MediaRecorder;
+import android.media.MediaRecorder.AudioSource;
+import android.os.Environment;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -12,28 +16,36 @@ public class AudioRecorderService extends Service{
 	
 	private static final String LOG_TAG = "AudioRecordTest";
 	private MediaRecorder recorder;
-	//private final String PATH_NAME = "picture_file_path";
+	private String mFileName = null;
 	
+	private void AudioRecordTest() {
+
+		mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+        mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".mp4");
+        Log.d(LOG_TAG, mFileName);
+    }
+
 	@Override
     public void onCreate() {
         super.onCreate();
         Log.d(LOG_TAG, "Recording Service Beginning");
         
         recorder = new MediaRecorder();
-        /*recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-        recorder.setOutputFile(PATH_NAME);
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC);
+        this.AudioRecordTest();
+        recorder.setOutputFile(mFileName);
         try{
-        recorder.prepare();
+        	recorder.prepare();
         }
         catch(IOException prepareFailed){
-        	Log.d(LOG_TAG, "Recording prepare failed and caught");
+        	Log.d(LOG_TAG, prepareFailed.toString());
+        	recorder = null;
+        	return;
         }
         recorder.start();   // Recording is now started
-        */
-        
-       
+        Log.d(LOG_TAG, "Recording Service Beginning");  
     }
 
     @Override
@@ -49,10 +61,12 @@ public class AudioRecorderService extends Service{
     @Override
     public void onDestroy() {
     	Log.d(LOG_TAG, "Recording Service onDestroy Called");
-    	/*recorder.stop();
-        recorder.reset();   // You can reuse the object by going back to setAudioSource() step
-        recorder.release(); // Now the object cannot be reused*/
-        Log.d(LOG_TAG, "Recording Stopped");
+    	if(recorder != null){
+	    	recorder.stop();
+	        recorder.reset();   // You can reuse the object by going back to setAudioSource() step
+	        recorder.release(); // Now the object cannot be reused
+	        Log.d(LOG_TAG, "Recording Stopped");
+    	}
         super.onDestroy();
         
     }

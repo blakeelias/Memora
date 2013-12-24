@@ -20,10 +20,11 @@ public class AudioRecorderService extends Service{
 	private final int CHANNEL_TYPE = AudioFormat.CHANNEL_IN_MONO;
 	private final int NUM_CHANNELS = 1;
 	private byte BITS_PER_SAMPLE = 16;  
-    private final int BYTE_RATE = (int)RECORDER_SAMPLERATE * NUM_CHANNELS * (int)(BITS_PER_SAMPLE)/8;
+    private final int BYTE_RATE = RECORDER_SAMPLERATE * NUM_CHANNELS * (BITS_PER_SAMPLE / 8);
+    private final int secondsOfRecording = 5;
     
-    private final int bufferSize = 160; //Should probably keep this size the same and change numBuffers
-    private final int numBuffers = 256 * 4; //256 gives about 2 seconds
+    private final int bufferSize = 160; //Each buffer holds 1/100th of a second.
+    private final int numBuffers = 100 * secondsOfRecording; 
     
     private RingBufferRecord audioThread;
 	
@@ -37,6 +38,7 @@ public class AudioRecorderService extends Service{
     @Override
     public void onDestroy() {
     	audioThread.interrupt();
+    	//Possibly want to block here until audioThread has terminated.
         super.onDestroy();
     }
     
@@ -86,8 +88,8 @@ public class AudioRecorderService extends Service{
                 { 
                 	//TODO make sure that ix gets reset so that it doesn't overflow.
                     Log.d(LOG_TAG, "Writing new data to buffer");
-                    byte[] buffer = buffers[ix++ % bufferSize];
-                    recorder.read(buffer,0,buffer.length);
+                    //byte[] buffer = buffers[ix++ % bufferSize];
+                    recorder.read(buffers[ix++ % numBuffers],0,bufferSize);
                 }
             }
             catch(Throwable x)
@@ -99,7 +101,6 @@ public class AudioRecorderService extends Service{
              */
             finally
             { 
-            	//TODO This is where I will iterate through buffers and pull the last n seconds of audio and save them.
                 recorder.stop();
                 recorder.release();
                 pollRingBuffer(ix);
@@ -126,7 +127,7 @@ public class AudioRecorderService extends Service{
         }
 
         private void writeAudioDataToFile() {
-        	int totalAudioLen = numBuffers * bufferSize;//BufferElements2Rec;
+        	int totalAudioLen = numBuffers * bufferSize;
             int totalDataLen = (totalAudioLen * NUM_CHANNELS * BITS_PER_SAMPLE / 8) + 36;
     	    String filePath = AudioFileName();
     	    byte header[] = new byte[44];
@@ -171,7 +172,7 @@ public class AudioRecorderService extends Service{
             header[29] = (byte) ((BYTE_RATE >> 8) & 0xff);
             header[30] = (byte) ((BYTE_RATE >> 16) & 0xff);
             header[31] = (byte) ((BYTE_RATE >> 24) & 0xff);
-            header[32] = (byte) (2 * 16 / 8);  // block align
+            header[32] = (byte) (NUM_CHANNELS * BITS_PER_SAMPLE / 8);//(2 * 16 / 8);  // block align (might be half what it should be)
             header[33] = 0;
             header[34] = BITS_PER_SAMPLE;  // bits per sample
             header[35] = 0;

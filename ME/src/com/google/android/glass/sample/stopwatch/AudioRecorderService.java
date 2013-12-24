@@ -1,6 +1,4 @@
 package com.google.android.glass.sample.stopwatch;
-
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -15,32 +13,20 @@ import android.util.Log;
 
 public class AudioRecorderService extends Service{
 	
-	private static final String LOG_TAG = "AudioRecordTest";
+	private static final String LOG_TAG = "Audio";
 
 	private static final int RECORDER_SAMPLERATE = 8000;
-	//private static final int CHANNEL_TYPE = AudioFormat.CHANNEL_IN_MONO;
 	private static final int ENCODING_TYPE = AudioFormat.ENCODING_PCM_16BIT;
 	private final int CHANNEL_TYPE = AudioFormat.CHANNEL_IN_MONO;
-	
-	//TODO Implement logic to determine number of channels.
-	private final int numChannels = 1; //This is hardcoded because I am using MONO. 
-    private final long longSampleRate = 8000;
-    private int bitsPerSample= 16;
-    private byte RECORDER_BPP = 16;
-    private int byteRate = (int)longSampleRate * numChannels * (int)(RECORDER_BPP)/8; //Changed from channels to numChannels
+	private final int NUM_CHANNELS = 1;
+	private byte BITS_PER_SAMPLE = 16;  
+    private final int BYTE_RATE = (int)RECORDER_SAMPLERATE * NUM_CHANNELS * (int)(BITS_PER_SAMPLE)/8;
     
     private final int bufferSize = 160; //Should probably keep this size the same and change numBuffers
     private final int numBuffers = 256 * 4; //256 gives about 2 seconds
     
     private RingBufferRecord audioThread;
 	
-	private String AudioFileName() {
-		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".wav");
-        Log.d(LOG_TAG, mFileName);
-        return mFileName;
-    }
-
 	@Override
     public void onCreate() {
         super.onCreate();
@@ -63,7 +49,7 @@ public class AudioRecorderService extends Service{
     public int onStartCommand(Intent intent, int flags, int startId) {
     	return 0;
     }
-    
+  
     private class RingBufferRecord extends Thread{ 
     	
         /**
@@ -81,7 +67,7 @@ public class AudioRecorderService extends Service{
         @Override
         public void run()
         { 
-            Log.d("Audio", "Running Audio Thread");
+            Log.d(LOG_TAG, "Running Audio Thread");
             AudioRecord recorder = null;
             buffers  = new byte[numBuffers][bufferSize];
             totalBuffer = new byte[numBuffers * bufferSize];
@@ -99,14 +85,14 @@ public class AudioRecorderService extends Service{
                 while(!interrupted())
                 { 
                 	//TODO make sure that ix gets reset so that it doesn't overflow.
-                    Log.d("Audio", "Writing new data to buffer");
+                    Log.d(LOG_TAG, "Writing new data to buffer");
                     byte[] buffer = buffers[ix++ % bufferSize];
                     recorder.read(buffer,0,buffer.length);
                 }
             }
             catch(Throwable x)
             { 
-                Log.d("Audio", "Error reading voice audio", x);
+                Log.d(LOG_TAG, "Error reading voice audio", x);
             }
             /*
              * Frees the thread's resources after the loop completes so that it can be run again
@@ -118,7 +104,7 @@ public class AudioRecorderService extends Service{
                 recorder.release();
                 pollRingBuffer(ix);
                 writeAudioDataToFile();
-                Log.d("Audio", "Thread Terminated");
+                Log.d(LOG_TAG, "Thread Terminated");
             }
         }
         
@@ -131,10 +117,17 @@ public class AudioRecorderService extends Service{
         		}
         	}
         }
+          
+        private String AudioFileName() {
+    		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
+            mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".wav");
+            Log.d(LOG_TAG, mFileName);
+            return mFileName;
+        }
 
         private void writeAudioDataToFile() {
         	int totalAudioLen = numBuffers * bufferSize;//BufferElements2Rec;
-            int totalDataLen = (totalAudioLen * numChannels * bitsPerSample / 8) + 36;
+            int totalDataLen = (totalAudioLen * NUM_CHANNELS * BITS_PER_SAMPLE / 8) + 36;
     	    String filePath = AudioFileName();
     	    byte header[] = new byte[44];
     	    byte wavFile[] = new byte[totalBuffer.length + header.length];
@@ -168,19 +161,19 @@ public class AudioRecorderService extends Service{
             header[19] = 0;
             header[20] = 1;  // format = 1
             header[21] = 0;
-            header[22] = (byte) numChannels;
+            header[22] = (byte) NUM_CHANNELS;
             header[23] = 0;
-            header[24] = (byte) (longSampleRate & 0xff);
-            header[25] = (byte) ((longSampleRate >> 8) & 0xff);
-            header[26] = (byte) ((longSampleRate >> 16) & 0xff);
-            header[27] = (byte) ((longSampleRate >> 24) & 0xff);
-            header[28] = (byte) (byteRate & 0xff);
-            header[29] = (byte) ((byteRate >> 8) & 0xff);
-            header[30] = (byte) ((byteRate >> 16) & 0xff);
-            header[31] = (byte) ((byteRate >> 24) & 0xff);
+            header[24] = (byte) (RECORDER_SAMPLERATE & 0xff);
+            header[25] = (byte) ((RECORDER_SAMPLERATE >> 8) & 0xff);
+            header[26] = (byte) ((RECORDER_SAMPLERATE >> 16) & 0xff);
+            header[27] = (byte) ((RECORDER_SAMPLERATE >> 24) & 0xff);
+            header[28] = (byte) (BYTE_RATE & 0xff);
+            header[29] = (byte) ((BYTE_RATE >> 8) & 0xff);
+            header[30] = (byte) ((BYTE_RATE >> 16) & 0xff);
+            header[31] = (byte) ((BYTE_RATE >> 24) & 0xff);
             header[32] = (byte) (2 * 16 / 8);  // block align
             header[33] = 0;
-            header[34] = RECORDER_BPP;  // bits per sample
+            header[34] = BITS_PER_SAMPLE;  // bits per sample
             header[35] = 0;
             header[36] = 'd';
             header[37] = 'a';

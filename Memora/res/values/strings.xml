@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Memora</string>
+
+    <!-- Voice Commands -->
+    <string name="StartMemora">start memora</string> <!-- Starts Application -->
+    
+</resources>

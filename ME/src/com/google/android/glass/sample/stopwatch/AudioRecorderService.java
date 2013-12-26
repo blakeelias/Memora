@@ -20,11 +20,12 @@ public class AudioRecorderService extends Service{
 	private final int CHANNEL_TYPE = AudioFormat.CHANNEL_IN_MONO;
 	private final int NUM_CHANNELS = 1;
 	private byte BITS_PER_SAMPLE = 16;  
+	private final int AUDIO_SOURCE = AudioSource.MIC;
     private final int BYTE_RATE = RECORDER_SAMPLERATE * NUM_CHANNELS * (BITS_PER_SAMPLE / 8);
-    private final int secondsOfRecording = 5;
+    private final int RECORDING_SECS = 5;
     
     private final int bufferSize = 160; //Each buffer holds 1/100th of a second.
-    private final int numBuffers = 100 * secondsOfRecording; 
+    private final int numBuffers = 100 * RECORDING_SECS; 
     
     private RingBufferRecord audioThread;
 	
@@ -55,7 +56,7 @@ public class AudioRecorderService extends Service{
     private class RingBufferRecord extends Thread{ 
     	
         /**
-         * Give the thread high priority so that it's not canceled unexpectedly, and start it
+         * Give the thread high priority so that it's not cancelled unexpectedly, and start it
          */
     	
     	private byte[][] buffers;
@@ -73,22 +74,17 @@ public class AudioRecorderService extends Service{
             AudioRecord recorder = null;
             buffers  = new byte[numBuffers][bufferSize];
             totalBuffer = new byte[numBuffers * bufferSize];
+            
             int ix = 0;
-
-            try
-            {
-                int N = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,CHANNEL_TYPE,ENCODING_TYPE);
-                recorder = new AudioRecord(AudioSource.MIC, RECORDER_SAMPLERATE, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, N*200);
-                
-                recorder.startRecording();
-                /*
-                 * Loops until something outside of this thread stops it.
-                 */
+            
+            int N = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,CHANNEL_TYPE,ENCODING_TYPE);
+            recorder = new AudioRecord(AUDIO_SOURCE, RECORDER_SAMPLERATE, CHANNEL_TYPE, ENCODING_TYPE, N*10);
+            recorder.startRecording();
+            
+            try{
                 while(!interrupted())
                 { 
                 	//TODO make sure that ix gets reset so that it doesn't overflow.
-                    Log.d(LOG_TAG, "Writing new data to buffer");
-                    //byte[] buffer = buffers[ix++ % bufferSize];
                     recorder.read(buffers[ix++ % numBuffers],0,bufferSize);
                 }
             }

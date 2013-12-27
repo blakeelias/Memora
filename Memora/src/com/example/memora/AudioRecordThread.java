@@ -27,6 +27,8 @@ public class AudioRecordThread extends Thread{
     private final int numBuffers = 100 * RECORDING_SECS; 
     
     private boolean pollingBuffer = false;
+    
+    AudioRecord recorder = null;
     	
     /**
      * Give the thread high priority so that it's not cancelled unexpectedly, and start it
@@ -44,14 +46,20 @@ public class AudioRecordThread extends Thread{
     public void run()
     { 
         Log.d(LOG_TAG, "Running Audio Thread");
-        AudioRecord recorder = null;
+        
         buffers  = new byte[numBuffers][bufferSize];
         totalBuffer = new byte[numBuffers * bufferSize];
         
         int ix = 0;
-        
         int N = AudioRecord.getMinBufferSize(RECORDER_SAMPLERATE,CHANNEL_TYPE,ENCODING_TYPE);
-        recorder = new AudioRecord(AUDIO_SOURCE, RECORDER_SAMPLERATE, CHANNEL_TYPE, ENCODING_TYPE, N*10);
+        Log.d(LOG_TAG, ""+N);
+        try{
+        	recorder = new AudioRecord(AUDIO_SOURCE, RECORDER_SAMPLERATE, CHANNEL_TYPE, ENCODING_TYPE, N*10);
+        }
+        catch(Throwable e){
+        	Log.d(LOG_TAG, e.toString());
+        	return;
+        }
         recorder.startRecording();
         
         try{
@@ -65,6 +73,7 @@ public class AudioRecordThread extends Thread{
             		pollRingBuffer(ix);
                     writeAudioDataToFile();
                     pollingBuffer = false;
+                    Log.d(LOG_TAG, "Audio Saved");
             	}
             }
         }

@@ -3,6 +3,8 @@ package com.example.memora;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -38,11 +40,18 @@ public class MenuActivity extends Activity {
                 //It does get past the finish statement.
                 return true;
             case R.id.capture:
-            	return super.onOptionsItemSelected(item);
+            	return captureAudioMesssage();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
+	
+	private boolean captureAudioMesssage() {
+		  Log.d("sender", "Broadcasting message");
+		  Intent intent = new Intent("save_audio_intent");
+		  LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+		  return true;
+	}
 
 }
 

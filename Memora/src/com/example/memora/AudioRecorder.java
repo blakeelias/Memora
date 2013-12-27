@@ -2,15 +2,10 @@ package com.example.memora;
 
 
 import com.google.android.glass.timeline.LiveCard;
-<<<<<<< HEAD
 import com.google.android.glass.timeline.LiveCard.PublishMode;
 import com.google.android.glass.timeline.TimelineManager;
 
 import android.app.PendingIntent;
-=======
-import com.google.android.glass.timeline.TimelineManager;
-
->>>>>>> 09ed2f08ef663aa785768be782ec222a5966aa85
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;

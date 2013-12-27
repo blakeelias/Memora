@@ -4,17 +4,20 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
-
+	private static final String LOG_TAG = "MainActivity";
+	
 	private static final int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 100;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		takePicture();
+		Log.d(LOG_TAG, "entering onCreate()");
+		//takePicture();
 	}
 
 	@Override

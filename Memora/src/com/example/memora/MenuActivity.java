@@ -34,7 +34,11 @@ public class MenuActivity extends Activity {
             case R.id.stop:
                 stopService(new Intent(this, AudioRecorder.class));
                 finish();
+                //What is the result of calling finish before the return statement?
+                //It does get past the finish statement.
                 return true;
+            case R.id.capture:
+            	return super.onOptionsItemSelected(item);
             default:
                 return super.onOptionsItemSelected(item);
         }

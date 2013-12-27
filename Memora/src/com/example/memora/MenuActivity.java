@@ -38,7 +38,9 @@ public class MenuActivity extends Activity {
                 //It does get past the finish statement.
                 return true;
             case R.id.capture:
-            	return super.onOptionsItemSelected(item);
+            	Intent intent = new Intent(this, PhotoActivity.class);
+            	startActivity(intent);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }

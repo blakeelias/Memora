@@ -31,8 +31,12 @@
 
         <activity
             android:name="com.example.memora.MenuActivity"
-            android:label="@string/title_activity_main" 
+            android:label="@string/title_activity_main"
             android:theme="@style/MenuTheme" >
+        </activity>
+        <activity
+            android:name="com.example.memora.PhotoActivity"
+            android:label="@string/title_activity_photo" >
         </activity>
     </application>
 

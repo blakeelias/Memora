@@ -40,17 +40,19 @@ public class MenuActivity extends Activity {
                 //It does get past the finish statement.
                 return true;
             case R.id.capture:
-            	return captureAudioMesssage();
+            	captureAudioMesssage();
+            	Intent intent = new Intent(this, PhotoActivity.class);
+            	startActivity(intent);
+            	return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 	
-	private boolean captureAudioMesssage() {
+	private void captureAudioMesssage() {
 		  Log.d("sender", "Broadcasting message");
 		  Intent intent = new Intent("save_audio_intent");
 		  LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-		  return true;
 	}
 
 }

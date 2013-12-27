@@ -29,15 +29,18 @@ public final class R {
         public static final int ic_star_50=0x7f020002;
     }
     public static final class id {
+        public static final int action_settings=0x7f0a0003;
         public static final int capture=0x7f0a0001;
         public static final int seconds_view=0x7f0a0000;
         public static final int stop=0x7f0a0002;
     }
     public static final class layout {
-        public static final int memora_live_card=0x7f030000;
+        public static final int activity_photo=0x7f030000;
+        public static final int memora_live_card=0x7f030001;
     }
     public static final class menu {
         public static final int main=0x7f090000;
+        public static final int photo=0x7f090001;
     }
     public static final class string {
         /**  Voice Commands 
@@ -52,6 +55,7 @@ public final class R {
         /**  Starts Application 
          */
         public static final int title_activity_main=0x7f070002;
+        public static final int title_activity_photo=0x7f070008;
     }
     public static final class style {
         /** 

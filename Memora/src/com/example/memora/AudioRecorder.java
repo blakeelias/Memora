@@ -1,17 +1,18 @@
 package com.example.memora;
 
 
-import com.google.android.glass.timeline.LiveCard;
-import com.google.android.glass.timeline.LiveCard.PublishMode;
-import com.google.android.glass.timeline.TimelineManager;
-
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import com.google.android.glass.timeline.LiveCard;
+import com.google.android.glass.timeline.LiveCard.PublishMode;
+import com.google.android.glass.timeline.TimelineManager;
 
 public class AudioRecorder extends Service {
 	
@@ -64,4 +65,6 @@ public class AudioRecorder extends Service {
 		// TODO: Return the communication channel to the service.
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
+	
+	
 }

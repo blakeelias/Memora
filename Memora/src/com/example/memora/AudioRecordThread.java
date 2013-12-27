@@ -25,6 +25,8 @@ public class AudioRecordThread extends Thread{
     
     private final int bufferSize = 160; //Each buffer holds 1/100th of a second.
     private final int numBuffers = 100 * RECORDING_SECS; 
+    
+    private boolean pollingBuffer = false;
     	
     /**
      * Give the thread high priority so that it's not cancelled unexpectedly, and start it
@@ -55,8 +57,15 @@ public class AudioRecordThread extends Thread{
         try{
             while(!interrupted())
             { 
-            	//TODO make sure that ix gets reset so that it doesn't overflow.
-                recorder.read(buffers[ix++ % numBuffers],0,bufferSize);
+            	if (!pollingBuffer){
+            		//TODO make sure that ix gets reset so that it doesn't overflow.
+            		recorder.read(buffers[ix++ % numBuffers],0,bufferSize);
+            	}
+            	else{
+            		pollRingBuffer(ix);
+                    writeAudioDataToFile();
+                    pollingBuffer = false;
+            	}
             }
         }
         catch(Throwable x)
@@ -70,10 +79,12 @@ public class AudioRecordThread extends Thread{
         { 
             recorder.stop();
             recorder.release();
-            pollRingBuffer(ix);
-            writeAudioDataToFile();
             Log.d(LOG_TAG, "Thread Terminated");
         }
+    }
+    
+    public void startPolling(){
+    	pollingBuffer = true;
     }
     
     private void pollRingBuffer(int ix){
@@ -91,6 +102,10 @@ public class AudioRecordThread extends Thread{
         mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".wav");
         Log.d(LOG_TAG, mFileName);
         return mFileName;
+    }
+    
+    public String saveAudio(){
+    	return "Failed";
     }
 
     private void writeAudioDataToFile() {

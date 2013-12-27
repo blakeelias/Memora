@@ -50,10 +50,8 @@ public class AudioRecorder extends Service {
     public void onCreate() {
 		Log.d("Memora", "Service Started");
         super.onCreate();
-        /*
         recorder = new AudioRecordThread();
 		recorder.start();
-		*/
         publishCard(this);
     }
 
@@ -61,7 +59,7 @@ public class AudioRecorder extends Service {
     public void onDestroy() {
     	Log.d("Memora", "Service Destroy");
     	unpublishCard(this);
-    	//recorder.interrupt();
+    	recorder.interrupt();
         super.onDestroy();
     }
 

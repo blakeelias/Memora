@@ -25,7 +25,7 @@ public class AudioRecorder extends Service {
 	        mLiveCard = tm.createLiveCard(cardId);
 	        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.memora_live_card);
 	        mLiveCard.setViews(rv);
-	        Intent intent = new Intent(context, MainActivity.class);
+	        Intent intent = new Intent(context, MenuActivity.class);
 	        mLiveCard.setAction(PendingIntent.getActivity(context, 0, intent, 0));
 	        mLiveCard.publish(PublishMode.SILENT);
 

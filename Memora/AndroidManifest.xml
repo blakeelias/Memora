@@ -27,8 +27,9 @@
         </service>
 
         <activity
-            android:name="com.example.memora.MainActivity"
-            android:label="@string/title_activity_main" >
+            android:name="com.example.memora.MenuActivity"
+            android:label="@string/title_activity_main" 
+            android:theme="@style/MenuTheme" >
         </activity>
     </application>
 

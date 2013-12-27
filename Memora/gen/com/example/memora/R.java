@@ -25,14 +25,16 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int ic_no_50=0x7f020001;
+        public static final int ic_star_50=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0001;
+        public static final int capture=0x7f0a0001;
         public static final int seconds_view=0x7f0a0000;
+        public static final int stop=0x7f0a0002;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int memora_live_card=0x7f030001;
+        public static final int memora_live_card=0x7f030000;
     }
     public static final class menu {
         public static final int main=0x7f090000;
@@ -43,8 +45,10 @@ public final class R {
         public static final int StartMemora=0x7f070001;
         public static final int action_settings=0x7f070003;
         public static final int app_name=0x7f070000;
+        public static final int capture=0x7f070006;
         public static final int hello_world=0x7f070004;
         public static final int live_card_text=0x7f070005;
+        public static final int quit=0x7f070007;
         /**  Starts Application 
          */
         public static final int title_activity_main=0x7f070002;
@@ -76,6 +80,9 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f080001;
+        /**  Transparent Menu Theme 
+         */
+        public static final int MenuTheme=0x7f080002;
     }
     public static final class xml {
         public static final int voice_trigger_start=0x7f040000;

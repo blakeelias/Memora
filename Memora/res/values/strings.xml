@@ -11,5 +11,8 @@
     <string name="hello_world">Hello world!</string>
     
     <string name="live_card_text">Memora</string>
+    <string name="capture">Capture</string>
+    <string name="quit">Quit</string>
+    
 
 </resources>

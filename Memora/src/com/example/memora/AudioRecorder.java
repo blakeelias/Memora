@@ -26,7 +26,8 @@ public class AudioRecorder extends Service {
     	  @Override
     	  public void onReceive(Context context, Intent intent) {
     		  Log.d(LOG_TAG, "Got message");
-    		  recorder.startPolling();
+    		  String filepath = recorder.startPolling();
+    		  //Publish timeline card with filepath in it.
     	  }
     };
 

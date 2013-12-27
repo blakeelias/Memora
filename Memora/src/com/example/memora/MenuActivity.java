@@ -41,8 +41,8 @@ public class MenuActivity extends Activity {
                 return true;
             case R.id.capture:
             	captureAudioMesssage();
-            	Intent intent = new Intent(this, PhotoActivity.class);
-            	startActivity(intent);
+            	//Intent intent = new Intent(this, PhotoActivity.class);
+            	//startActivity(intent);
             	return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -21,12 +21,12 @@ public class AudioRecordThread extends Thread{
 	private byte BITS_PER_SAMPLE = 16;  
 	private final int AUDIO_SOURCE = AudioSource.MIC;
     private final int BYTE_RATE = RECORDER_SAMPLERATE * NUM_CHANNELS * (BITS_PER_SAMPLE / 8);
-    private final int RECORDING_SECS = 5;
+    private final int RECORDING_SECS = 20;
     
     private final int bufferSize = 160; //Each buffer holds 1/100th of a second.
     private final int numBuffers = 100 * RECORDING_SECS; 
-    
     private boolean pollingBuffer = false;
+    private String latestFilePath = null;
     
     AudioRecord recorder = null;
     	
@@ -92,8 +92,10 @@ public class AudioRecordThread extends Thread{
         }
     }
     
-    public void startPolling(){
+    public String startPolling(){
     	pollingBuffer = true;
+    	latestFilePath = audioFileName();
+    	return latestFilePath;
     }
     
     private void pollRingBuffer(int ix){
@@ -106,7 +108,7 @@ public class AudioRecordThread extends Thread{
     	}
     }
       
-    private String AudioFileName() {
+    private String audioFileName() {
 		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
         mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".wav");
         Log.d(LOG_TAG, mFileName);
@@ -120,13 +122,13 @@ public class AudioRecordThread extends Thread{
     private void writeAudioDataToFile() {
     	int totalAudioLen = numBuffers * bufferSize;
         int totalDataLen = (totalAudioLen * NUM_CHANNELS * BITS_PER_SAMPLE / 8) + 36;
-	    String filePath = AudioFileName();
+	    //String filePath = audioFileName();
 	    byte header[] = new byte[44];
 	    byte wavFile[] = new byte[totalBuffer.length + header.length];
 	    
 	    FileOutputStream os = null;
 	    try {
-	        os = new FileOutputStream(filePath);
+	        os = new FileOutputStream(latestFilePath);
 	    } catch (FileNotFoundException e) {
 	        e.printStackTrace();
 	    }

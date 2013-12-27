@@ -2,10 +2,15 @@ package com.example.memora;
 
 
 import com.google.android.glass.timeline.LiveCard;
+<<<<<<< HEAD
 import com.google.android.glass.timeline.LiveCard.PublishMode;
 import com.google.android.glass.timeline.TimelineManager;
 
 import android.app.PendingIntent;
+=======
+import com.google.android.glass.timeline.TimelineManager;
+
+>>>>>>> 09ed2f08ef663aa785768be782ec222a5966aa85
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -21,12 +26,14 @@ public class AudioRecorder extends Service {
 	    if (mLiveCard == null) {
 	        String cardId = "my_card";
 	        TimelineManager tm = TimelineManager.from(context);
+	        
 	        mLiveCard = tm.createLiveCard(cardId);
 	        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.memora_live_card);
 	        mLiveCard.setViews(rv);
 	        Intent intent = new Intent(context, MainActivity.class);
 	        mLiveCard.setAction(PendingIntent.getActivity(context, 0, intent, 0));
 	        mLiveCard.publish(PublishMode.SILENT);
+
 	    } else {
 	        // Card is already published.
 	        return;

@@ -36,11 +36,13 @@ public final class R {
     }
     public static final class layout {
         public static final int activity_photo=0x7f030000;
-        public static final int memora_live_card=0x7f030001;
+        public static final int activity_timeline_card=0x7f030001;
+        public static final int memora_live_card=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f090000;
         public static final int photo=0x7f090001;
+        public static final int timeline_card=0x7f090002;
     }
     public static final class string {
         /**  Voice Commands 
@@ -56,6 +58,7 @@ public final class R {
          */
         public static final int title_activity_main=0x7f070002;
         public static final int title_activity_photo=0x7f070008;
+        public static final int title_activity_timeline_card=0x7f070009;
     }
     public static final class style {
         /** 

@@ -13,5 +13,6 @@
     <string name="capture">Capture</string>
     <string name="quit">Quit</string>
     <string name="title_activity_photo">PhotoActivity</string>
+    <string name="title_activity_timeline_card">TimelineCardActivity</string>
 
 </resources>

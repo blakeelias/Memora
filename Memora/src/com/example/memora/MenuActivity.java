@@ -33,6 +33,7 @@ public class MenuActivity extends Activity {
         switch (item.getItemId()) {
             case R.id.stop:
                 stopService(new Intent(this, AudioRecorder.class));
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

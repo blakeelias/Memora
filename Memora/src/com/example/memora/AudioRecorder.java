@@ -48,14 +48,14 @@ public class AudioRecorder extends Service {
 	@Override
     public void onCreate() {
 		Log.d("Memora", "Service Started");
-		publishCard(this);
         super.onCreate();
-        
+        publishCard(this);
     }
 
     @Override
     public void onDestroy() {
     	Log.d("Memora", "Service Destroy");
+    	unpublishCard(this);
         super.onDestroy();
     }
 

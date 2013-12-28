@@ -39,6 +39,13 @@ public class MenuActivity extends Activity {
                 //What is the result of calling finish before the return statement?
                 //It does get past the finish statement.
                 return true;
+            case R.id.moments:
+            	captureAudioMesssage();
+            	Intent myIntent = new Intent(this, MomentsImmersion.class);
+            	startActivity(myIntent);
+            	//Intent intent = new Intent(this, PhotoActivity.class);
+            	//startActivity(intent);
+            	return true;
             case R.id.capture:
             	captureAudioMesssage();
             	//Intent intent = new Intent(this, PhotoActivity.class);

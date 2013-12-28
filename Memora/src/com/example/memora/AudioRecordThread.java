@@ -1,5 +1,6 @@
 package com.example.memora;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -13,6 +14,7 @@ import android.util.Log;
 public class AudioRecordThread extends Thread{
 	
 	private static final String LOG_TAG = "Audio";
+	private String memoraDirectory;
 	
 	private static final int RECORDER_SAMPLERATE = 8000;
 	private static final int ENCODING_TYPE = AudioFormat.ENCODING_PCM_16BIT;
@@ -109,12 +111,9 @@ public class AudioRecordThread extends Thread{
     }
       
     private String audioFileName() {
-		String mFileName = Environment.getExternalStorageDirectory().getAbsolutePath();
-        mFileName += ("/" + Environment.DIRECTORY_PICTURES + "/audiorecordtest_" + String.valueOf(System.currentTimeMillis()) + ".wav");
-        Log.d(LOG_TAG, mFileName);
-        return mFileName;
+        return memoraDirectory + File.separator + String.valueOf(System.currentTimeMillis()) + ".wav";
     }
-    
+    //TODO what does this do and why is this here
     public String saveAudio(){
     	return "Failed";
     }

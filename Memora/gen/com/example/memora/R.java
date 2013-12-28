@@ -25,14 +25,17 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
-        public static final int ic_no_50=0x7f020001;
-        public static final int ic_star_50=0x7f020002;
+        public static final int ic_music_play_50=0x7f020001;
+        public static final int ic_no_50=0x7f020002;
+        public static final int ic_star_50=0x7f020003;
     }
     public static final class id {
-        public static final int action_settings=0x7f0a0003;
+        public static final int action_settings=0x7f0a0004;
         public static final int capture=0x7f0a0001;
+        public static final int moments=0x7f0a0002;
+        public static final int play=0x7f0a0005;
         public static final int seconds_view=0x7f0a0000;
-        public static final int stop=0x7f0a0002;
+        public static final int stop=0x7f0a0003;
     }
     public static final class layout {
         public static final int activity_photo=0x7f030000;
@@ -53,6 +56,8 @@ public final class R {
         public static final int capture=0x7f070006;
         public static final int hello_world=0x7f070004;
         public static final int live_card_text=0x7f070005;
+        public static final int moments=0x7f07000b;
+        public static final int play=0x7f07000a;
         public static final int quit=0x7f070007;
         /**  Starts Application 
          */
@@ -62,15 +67,6 @@ public final class R {
     }
     public static final class style {
         /** 
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    
-
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        
-
         Base application theme for API 11+. This theme completely replaces
         AppBaseTheme from res/values/styles.xml on API 11+ devices.
     
@@ -82,14 +78,10 @@ public final class R {
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f080000;
-        /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
-         */
-        public static final int AppTheme=0x7f080001;
+        public static final int AppBaseTheme=0x7f080001;
         /**  Transparent Menu Theme 
          */
-        public static final int MenuTheme=0x7f080002;
+        public static final int MenuTheme=0x7f080000;
     }
     public static final class xml {
         public static final int voice_trigger_start=0x7f040000;

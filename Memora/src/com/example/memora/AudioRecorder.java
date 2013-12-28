@@ -1,21 +1,27 @@
 package com.example.memora;
 
+import java.io.File;
+
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.RemoteViews;
-
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.timeline.LiveCard.PublishMode;
 import com.google.android.glass.timeline.TimelineManager;
 
 public class AudioRecorder extends Service {
+	
+	public static final String memoraDirectory = Environment.getExternalStorageDirectory()+File.separator+"memora";
+	public static final String memoraDirectoryAudio = memoraDirectory+File.separator+"audio";
+	public static final String memoraDirectoryImages = memoraDirectory+File.separator+"images";
 	
 	private final String LOG_TAG = "AudioRecorder";
 	private LiveCard mLiveCard;	
@@ -31,8 +37,9 @@ public class AudioRecorder extends Service {
     		  //Publish timeline card with filepath in it.
     	  }
     };
-
-	private void publishCard(Context context) {
+    
+	private void publishMainMemoraCard(Context context) {
+		
 	    if (mLiveCard == null) {
 	        String cardId = "my_card";
 	        TimelineManager tm = TimelineManager.from(context);
@@ -65,11 +72,13 @@ public class AudioRecorder extends Service {
 		Log.d("Memora", "Service Started");
         super.onCreate();
         
+        createMemoraDirectory();
+        
         LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReceiver, new IntentFilter("save_audio_intent"));
         
         recorder = new AudioRecordThread();
 		recorder.start();
-        publishCard(this);
+        publishMainMemoraCard(this);
     }
 
     @Override
@@ -86,5 +95,11 @@ public class AudioRecorder extends Service {
 		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
+	private void createMemoraDirectory(){
+        File directory = new File(memoraDirectory);
+        if (!directory.isDirectory()){
+        	directory.mkdirs();
+        }
+	}
 	
 }

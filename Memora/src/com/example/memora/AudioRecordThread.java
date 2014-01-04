@@ -14,7 +14,6 @@ import android.util.Log;
 public class AudioRecordThread extends Thread{
 	
 	private static final String LOG_TAG = "Audio";
-	private String memoraDirectory;
 	
 	private static final int RECORDER_SAMPLERATE = 8000;
 	private static final int ENCODING_TYPE = AudioFormat.ENCODING_PCM_16BIT;
@@ -94,9 +93,9 @@ public class AudioRecordThread extends Thread{
         }
     }
     
-    public String startPolling(){
+    public String startPolling(long millis){
     	pollingBuffer = true;
-    	latestFilePath = audioFileName();
+    	latestFilePath = audioFileName(millis);
     	return latestFilePath;
     }
     
@@ -110,8 +109,8 @@ public class AudioRecordThread extends Thread{
     	}
     }
       
-    private String audioFileName() {
-        return memoraDirectory + File.separator + String.valueOf(System.currentTimeMillis()) + ".wav";
+    private String audioFileName(long millis) {
+        return MenuActivity.memoraDirectoryAudio + File.separator + String.valueOf(millis) + ".wav";
     }
     //TODO what does this do and why is this here
     public String saveAudio(){

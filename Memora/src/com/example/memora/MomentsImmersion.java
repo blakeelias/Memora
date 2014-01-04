@@ -19,7 +19,7 @@ import android.view.ViewGroup;
 public class MomentsImmersion extends Activity {
 
     private ArrayList<Card> mlcCards = new ArrayList<Card>();
-    private ArrayList<File> mlsText = new ArrayList<File>(Arrays.asList((new File(AudioRecorder.memoraDirectoryAudio)).listFiles()));
+    private ArrayList<File> mlsText = new ArrayList<File>(Arrays.asList((new File(MenuActivity.memoraDirectoryAudio)).listFiles()));
     private static final String LOG_TAG = "Moments Immersion";
     
     @Override

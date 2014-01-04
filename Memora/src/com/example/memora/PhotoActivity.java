@@ -12,12 +12,15 @@ import android.view.Menu;
 import com.google.android.glass.media.CameraManager;
 
 public class PhotoActivity extends Activity {
+	
+	static long millis;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo);
-		takePicture();
+		long millis = getIntent().getExtras().getLong(MenuActivity.MILLIS_EXTRA_KEY);
+		takePicture(millis);
 	}
 
 	@Override
@@ -29,16 +32,17 @@ public class PhotoActivity extends Activity {
 	
 	private static final int TAKE_PICTURE_REQUEST = 1;
 
-	private void takePicture() {
+	private void takePicture(long millis) {
 	    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 	    startActivityForResult(intent, TAKE_PICTURE_REQUEST);
+	    this.millis = millis;
 	}
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
-	        String picturePath = data.getStringExtra(
-	                CameraManager.EXTRA_PICTURE_FILE_PATH);
+	    	//long millis = data.getLongExtra(MenuActivity.MILLIS_EXTRA_KEY, -1); // this doesn't seem to work
+	        String picturePath = photoFileName(this.millis);
 	        processPictureWhenReady(picturePath);
 	    }
 
@@ -90,5 +94,9 @@ public class PhotoActivity extends Activity {
 	    }
 	    finish();
 	}
+	
+	private String photoFileName(long millis) {
+        return MenuActivity.memoraDirectoryImages + File.separator + String.valueOf(millis) + ".jpg";
+    }
 
 }

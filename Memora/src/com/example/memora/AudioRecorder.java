@@ -8,7 +8,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Environment;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
@@ -19,10 +18,6 @@ import com.google.android.glass.timeline.TimelineManager;
 
 public class AudioRecorder extends Service {
 	
-	public static final String memoraDirectory = Environment.getExternalStorageDirectory()+File.separator+"memora";
-	public static final String memoraDirectoryAudio = memoraDirectory+File.separator+"audio";
-	public static final String memoraDirectoryImages = memoraDirectory+File.separator+"images";
-	
 	private final String LOG_TAG = "AudioRecorder";
 	private LiveCard mLiveCard;	
 
@@ -32,7 +27,8 @@ public class AudioRecorder extends Service {
     	  @Override
     	  public void onReceive(Context context, Intent intent) {
     		  Log.d(LOG_TAG, "Got message");
-    		  String filepath = recorder.startPolling();
+    		  long millis = intent.getExtras().getLong(MenuActivity.MILLIS_EXTRA_KEY);
+    		  String filepath = recorder.startPolling(millis);
     		  
     		  //Publish timeline card with filepath in it.
     	  }
@@ -96,7 +92,7 @@ public class AudioRecorder extends Service {
 	}
 	
 	private void createMemoraDirectory(){
-        File directory = new File(memoraDirectory);
+        File directory = new File(MenuActivity.memoraDirectory);
         if (!directory.isDirectory()){
         	directory.mkdirs();
         }

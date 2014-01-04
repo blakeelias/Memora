@@ -96,6 +96,14 @@ public class AudioRecorder extends Service {
         if (!directory.isDirectory()){
         	directory.mkdirs();
         }
+        directory = new File(MenuActivity.memoraDirectoryAudio);
+        if (!directory.isDirectory()){
+        	directory.mkdirs();
+        }
+        directory = new File(MenuActivity.memoraDirectoryImages);
+        if (!directory.isDirectory()){
+        	directory.mkdirs();
+        }
 	}
 	
 }

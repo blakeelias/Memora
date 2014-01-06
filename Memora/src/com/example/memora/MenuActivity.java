@@ -61,8 +61,6 @@ public class MenuActivity extends Activity {
             default:
                 return super.onOptionsItemSelected(item);
         }
-        
-        
     }
 	
 	public void onOptionsMenuClosed(Menu menu) {

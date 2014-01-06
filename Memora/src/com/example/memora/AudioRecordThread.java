@@ -8,7 +8,6 @@ import java.io.IOException;
 import android.media.AudioFormat;
 import android.media.AudioRecord;
 import android.media.MediaRecorder.AudioSource;
-import android.os.Environment;
 import android.util.Log;
 
 public class AudioRecordThread extends Thread{
@@ -40,6 +39,7 @@ public class AudioRecordThread extends Thread{
 	
     public AudioRecordThread()
     { 
+    	//Try this at lower priorities.
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
     }
 

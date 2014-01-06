@@ -1,11 +1,11 @@
 package com.example.memora;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 import com.google.android.glass.app.Card;
 import com.google.android.glass.widget.CardScrollAdapter;
@@ -26,13 +26,14 @@ public class MomentsImmersion extends Activity {
 
     private ArrayList<Card> mlcCards = new ArrayList<Card>();
     private ArrayList<File> mlsFiles = new ArrayList<File>(Arrays.asList((new File(MenuActivity.memoraDirectoryAudio)).listFiles()));
+    
     private static final String LOG_TAG = "Moments Immersion";
     
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        Collections.reverse(mlsFiles);
         for (int i = 0; i < mlsFiles.size(); i++)
         {
             Card newCard = new Card(this);

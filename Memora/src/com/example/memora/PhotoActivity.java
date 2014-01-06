@@ -1,21 +1,20 @@
 package com.example.memora;
 
 import java.io.File;
+import java.io.IOException;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.FileObserver;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Menu;
 
-import com.google.android.glass.media.CameraManager;
-
 public class PhotoActivity extends Activity {
 	static final String LOG_TAG = "PhotoActivity";
 	
-	static long millis;
+	long millis;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +35,15 @@ public class PhotoActivity extends Activity {
 
 	private void takePicture(long millis) {
 	    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+	    File pictureFile = new File(photoFileName(millis));
+	    try {
+	        pictureFile.createNewFile();
+	    } catch (IOException e) {
+	    	// TODO Auto-generated catch block
+	        e.printStackTrace();
+	    }
+	    Log.d(LOG_TAG, pictureFile.getPath());
+	    //intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(pictureFile));
 	    startActivityForResult(intent, TAKE_PICTURE_REQUEST);
 	    this.millis = millis;
 	}
@@ -43,15 +51,15 @@ public class PhotoActivity extends Activity {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    if (requestCode == TAKE_PICTURE_REQUEST && resultCode == RESULT_OK) {
-	    	//long millis = data.getLongExtra(MenuActivity.MILLIS_EXTRA_KEY, -1); // this doesn't seem to work
-	        String picturePath = photoFileName(this.millis);
-	        processPictureWhenReady(picturePath);
+	        Log.d(LOG_TAG, "in onActivityResult()");
+	        Log.d(LOG_TAG, "Image saved to:\n" + data.getData());
 	    }
 
 	    super.onActivityResult(requestCode, resultCode, data);
 	}
 
-	private void processPictureWhenReady(final String picturePath) {
+	/*private void processPictureWhenReady(final String picturePath) {
+		Log.d(LOG_TAG, "in processPictureWhenReady()");
 	    final File pictureFile = new File(picturePath);
 
 	    if (pictureFile.exists()) {
@@ -73,9 +81,8 @@ public class PhotoActivity extends Activity {
 	                if (!isFileWritten) {
 	                    // For safety, make sure that the file that was created in
 	                    // the directory is actually the one that we're expecting.
-	                	Log.d(LOG_TAG, parentDirectory.toString());
-	                	Log.d(LOG_TAG, path.toString());
-	                	System.out.println();
+	                	Log.d(LOG_TAG, "parentDirectory not null? " + parentDirectory);
+	                	Log.d(LOG_TAG, "path not null? " + path);
 	                    File affectedFile = new File(parentDirectory, path);
 	                    isFileWritten = (event == FileObserver.CLOSE_WRITE
 	                            && affectedFile.equals(pictureFile));
@@ -98,7 +105,7 @@ public class PhotoActivity extends Activity {
 	        observer.startWatching();
 	    }
 	    finish();
-	}
+	}*/
 	
 	private String photoFileName(long millis) {
         return MenuActivity.memoraDirectoryImages + File.separator + String.valueOf(millis) + ".jpg";

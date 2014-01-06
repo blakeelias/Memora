@@ -7,11 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.FileObserver;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.Menu;
 
 import com.google.android.glass.media.CameraManager;
 
 public class PhotoActivity extends Activity {
+	static final String LOG_TAG = "PhotoActivity";
 	
 	static long millis;
 
@@ -71,6 +73,9 @@ public class PhotoActivity extends Activity {
 	                if (!isFileWritten) {
 	                    // For safety, make sure that the file that was created in
 	                    // the directory is actually the one that we're expecting.
+	                	Log.d(LOG_TAG, parentDirectory.toString());
+	                	Log.d(LOG_TAG, path.toString());
+	                	System.out.println();
 	                    File affectedFile = new File(parentDirectory, path);
 	                    isFileWritten = (event == FileObserver.CLOSE_WRITE
 	                            && affectedFile.equals(pictureFile));

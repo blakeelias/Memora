@@ -92,11 +92,13 @@ public class AudioRecorder extends Service {
 	}
 	
 	private void createMemoraDirectory(){
+		/*
         File directory = new File(MenuActivity.memoraDirectory);
         if (!directory.isDirectory()){
         	directory.mkdirs();
         }
-        directory = new File(MenuActivity.memoraDirectoryAudio);
+        */
+        File directory = new File(MenuActivity.memoraDirectoryAudio);
         if (!directory.isDirectory()){
         	directory.mkdirs();
         }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 	
@@ -38,8 +39,6 @@ public class MainActivity extends Activity {
                 stopService(new Intent(this, CameraTimerService.class));
                 finish();
                 closeOptionsMenu();
-                //What is the result of calling finish before the return statement?
-                //It does get past the finish statement.
                 return true;
             case R.id.capture:
             	return true;
@@ -47,6 +46,18 @@ public class MainActivity extends Activity {
                 return super.onOptionsItemSelected(item);
         }
     }
+	/**
+	 * @param brightness and integer between 0 and 100.
+	 * values below 0 set screen to default brightness. 
+	 * values above 100 set screen to max brightness.
+	 */
+	@SuppressWarnings("unused")
+	//This is currently unused because Glass automatically sets screen brightness.
+	private void changeBrightness(int brightness){
+		WindowManager.LayoutParams lp = getWindow().getAttributes();
+		lp.screenBrightness = Math.min(brightness, 1) / 100.0f;
+		getWindow().setAttributes(lp);
+	}
 	
 	public void onOptionsMenuClosed(Menu menu) {
         finish();

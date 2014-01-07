@@ -56,12 +56,14 @@ public class MomentsImmersion extends Activity {
             {
             	Log.d(LOG_TAG, "Click recognized on moment #" + position);
             	
+            	mlcCards.get(position).setFootnote("Audio is playing!");
             	MediaPlayer mpPlayProgram = MediaPlayer.create(getBaseContext(), Uri.fromFile(mlsFiles.get(position)));
             	mpPlayProgram.setOnCompletionListener(new OnCompletionListener() {
 
                     @Override
                     public void onCompletion(MediaPlayer mp) {
                     	Log.d(LOG_TAG, "MP Released");
+                    	//mlcCards.get(position).setFootnote("");
                         mp.release();
                     }
 
@@ -84,7 +86,7 @@ public class MomentsImmersion extends Activity {
     }
 
     private String timeFromFile(File file){
-    	//Add timezone compatibility
+    	//TODO Add timezone compatibility
     	String[] split = file.toString().split("/");
     	String timestamp = split[split.length-1];
     	timestamp = split[split.length-1];

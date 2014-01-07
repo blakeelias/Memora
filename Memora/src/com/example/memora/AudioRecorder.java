@@ -29,7 +29,7 @@ public class AudioRecorder extends Service {
     		  Log.d(LOG_TAG, "Got message");
     		  long millis = intent.getExtras().getLong(MenuActivity.MILLIS_EXTRA_KEY);
     		  String filepath = recorder.startPolling(millis);
-    		  
+   	  
     		  //Publish timeline card with filepath in it.
     	  }
     };

@@ -3,6 +3,7 @@ package sethberg.glass.me;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.List;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -73,9 +74,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 	public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
 		// Now that the size is known, set up the camera parameters and begin
 		// the preview.
-		Camera.Parameters parameters = camera.getParameters();
-		parameters.setPreviewSize(w, h);
-		camera.setParameters(parameters);
+		googleGlassXE10WorkAround(camera);
 		camera.startPreview();
 	}
 
@@ -87,4 +86,16 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		canvas.drawText("PREVIEW", canvas.getWidth() / 2,
 				canvas.getHeight() / 2, p);
 	}
+	
+	/**
+	 * Fix for known camera API issue on Glass
+	 * Copied from second answer here: http://stackoverflow.com/questions/19235477/google-glass-preview-image-scrambled-with-new-xe10-release
+	 * @param mCamera
+	 */
+	public void googleGlassXE10WorkAround(Camera mCamera) {
+        Camera.Parameters params = mCamera.getParameters();
+        params.setPreviewFpsRange(30000, 30000);
+        params.setPreviewSize(640,360);
+        mCamera.setParameters(params);
+  }
 }

@@ -1,6 +1,5 @@
 package sethberg.glass.me;
 
-
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.timeline.TimelineManager;
 import com.google.android.glass.timeline.LiveCard.PublishMode;
@@ -9,14 +8,17 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 public class CameraTimerService extends Service {
 	
-	private static final String LOG_TAG = "CameraTimerService";
+	private static final String LOG_TAG = "Camera Timer Service";
 	private LiveCard mLiveCard;	
+	private Handler timerHandler;
+	private static final int SECONDS_PER_PICTURE = 15;
 	
 	public CameraTimerService() {
 	}
@@ -31,6 +33,10 @@ public class CameraTimerService extends Service {
 	public void onCreate(){
 		Log.d(LOG_TAG, "Service Started");
         super.onCreate();
+        
+        timerHandler = new Handler();
+        timerRunnable.run();
+        
         publishMainActivityCard(this);
         
 	}
@@ -38,6 +44,7 @@ public class CameraTimerService extends Service {
 	@Override
     public void onDestroy() {
     	Log.d(LOG_TAG, "ME Service Destroyed");
+    	timerHandler.removeCallbacks(timerRunnable);
     	unpublishCard(this);
         super.onDestroy();
     }
@@ -68,4 +75,15 @@ public class CameraTimerService extends Service {
 	        mLiveCard = null;
 	    }
 	}
+	
+	private Runnable timerRunnable = new Runnable() 
+	{
+
+	    public void run() 
+	    {
+	         Log.d(LOG_TAG, "Timer Fired");
+	         //TODO Blake, this is where you should put your picture taking call.
+	         timerHandler.postDelayed(this, SECONDS_PER_PICTURE);
+	    }
+	};
 }

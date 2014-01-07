@@ -9,6 +9,6 @@
     <string name="capture">Capture</string>
     <string name="quit">Quit</string>
     <string name="live_card_text">This is ME!</string>
-    
+    <string name="title_activity_camera">CameraActivity</string>
 
 </resources>

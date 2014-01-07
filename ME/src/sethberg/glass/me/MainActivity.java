@@ -42,6 +42,9 @@ public class MainActivity extends Activity {
                 //It does get past the finish statement.
                 return true;
             case R.id.capture:
+            	Intent cameraIntent = new Intent(this, CameraActivity.class);
+            	cameraIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            	startActivity(cameraIntent);
             	return true;
             default:
                 return super.onOptionsItemSelected(item);

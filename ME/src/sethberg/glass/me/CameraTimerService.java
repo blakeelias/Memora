@@ -83,7 +83,7 @@ public class CameraTimerService extends Service {
 	    {
 	         Log.d(LOG_TAG, "Timer Fired");
 	         //TODO Blake, this is where you should put your picture taking call.
-	         timerHandler.postDelayed(this, SECONDS_PER_PICTURE);
+	         timerHandler.postDelayed(this, SECONDS_PER_PICTURE*1000);
 	    }
 	};
 }

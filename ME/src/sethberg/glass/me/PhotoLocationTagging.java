@@ -27,12 +27,13 @@ public class PhotoLocationTagging {
 		criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
 		
+		/*
 		locationListener = new LocationListener() {
 		    public void onLocationChanged(Location location) {
-		      // Called when a new location is found by the network location provider.
-		      Log.d(LOG_TAG, "Got location update: " + location.toString());
-		      setGpsExif(location);
-		      locationManager.removeUpdates(locationListener);
+		    	// Called when a new location is found by the network location provider.
+		    	Log.d(LOG_TAG, "Got location update: " + location.toString());
+		    	locationManager.removeUpdates(locationListener);
+		    	setGpsExif(location);
 		    }
 
 		    public void onStatusChanged(String provider, int status, Bundle extras) {}
@@ -41,18 +42,32 @@ public class PhotoLocationTagging {
 
 		    public void onProviderDisabled(String provider) {}
 		  };
-		
+		*/
 	}
 	
 	public void setLocation(String filepath){
 		this.filepath = filepath;
-		List<String> providers = locationManager.getAllProviders();
-		for (String provider : providers) {
-		    if (locationManager.isProviderEnabled(provider)) {
-		        locationManager.requestLocationUpdates(provider, 1000, 1, locationListener);
-		    }
-		}
+		String provider = locationManager.getBestProvider(criteria, true);	
+		locationManager.requestSingleUpdate(provider, new LocationListener(){
+
+	        @Override
+	        public void onLocationChanged(Location location) {
+	            Log.d(LOG_TAG, location.toString());
+	            setGpsExif(location);
+	        }
+
+	        @Override
+	        public void onProviderDisabled(String provider) {}
+
+	        @Override
+	        public void onProviderEnabled(String provider) {}
+
+	        @Override
+	        public void onStatusChanged(String provider, int status, Bundle extras) {}
+
+	    }, null);
 	}
+	
 	
 	//Change this to void, or even better do some callback thing
 	private boolean setGpsExif(Location location){
@@ -74,18 +89,12 @@ public class PhotoLocationTagging {
         String[] splits = dms.split(":");
         String[] secnds = (splits[2]).split("\\.");
         String seconds;
-        if(secnds.length==0)
-        {
-            seconds = splits[2];
-        }
-        else
-        {
-            seconds = secnds[0];
-        }
+        
+        if(secnds.length==0){ seconds = splits[2]; }
+        else{ seconds = secnds[0]; }
 
         String latitudeStr = splits[0] + "/1," + splits[1] + "/1," + seconds + "/1";
         exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE, latitudeStr);
-
         exif.setAttribute(ExifInterface.TAG_GPS_LATITUDE_REF, lat>0?"N":"S");
 
         double lon = location.getLongitude();
@@ -95,16 +104,9 @@ public class PhotoLocationTagging {
         splits = dms.split(":");
         secnds = (splits[2]).split("\\.");
 
-        if(secnds.length==0)
-        {
-            seconds = splits[2];
-        }
-        else
-        {
-            seconds = secnds[0];
-        }
+        if(secnds.length==0){ seconds = splits[2]; }
+        else{ seconds = secnds[0]; }
         String longitudeStr = splits[0] + "/1," + splits[1] + "/1," + seconds + "/1";
-
 
         exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE, longitudeStr);
         exif.setAttribute(ExifInterface.TAG_GPS_LONGITUDE_REF, lon>0?"E":"W");
@@ -118,6 +120,7 @@ public class PhotoLocationTagging {
         	Log.d(LOG_TAG, "exif.saveAttributes failed with exception: " + e.toString());
         	return false;
         }
+        Log.d(LOG_TAG, "Method ran to completion");
         return true;
 
     }

@@ -1,7 +1,10 @@
 package sethberg.glass.me;
 
+import java.io.File;
+
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Environment;
 import android.app.Activity;
 import android.content.Intent;
 import android.util.Log;
@@ -45,7 +48,9 @@ public class MainActivity extends Activity {
             	//Intent cameraIntent = new Intent(this, CameraActivity.class);
             	//cameraIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             	//startActivity(cameraIntent);
-            	String filepath = "This is a bad path";
+            	String filepath = "/mnt/sdcard/DCIM/Camera/tmp.jpg";
+            	//String filepath = Environment.getExternalStorageDirectory()+File.separator+"memora";
+            	//Not opening this filepath.
             	PhotoLocationTagging tag = new PhotoLocationTagging(getApplicationContext());
             	tag.setLocation(filepath);
             	return true;

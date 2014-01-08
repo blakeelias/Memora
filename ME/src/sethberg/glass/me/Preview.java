@@ -89,7 +89,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 	
 	/**
 	 * Fix for known camera API issue on Glass
-	 * Copied from second answer here: http://stackoverflow.com/questions/19235477/google-glass-preview-image-scrambled-with-new-xe10-release
+	 * Copied from second answer here: http://stackoverflow.com/a/19434459/1476167
 	 * @param mCamera
 	 */
 	public void googleGlassXE10WorkAround(Camera mCamera) {

@@ -35,6 +35,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		// The Surface has been created, acquire the camera and tell it where
 		// to draw.
 		camera = Camera.open();
+		Log.d(TAG, "Camera.open()'d");
 		try {
 			camera.setPreviewDisplay(holder);
 
@@ -69,6 +70,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		// Because the CameraDevice object is not a shared resource, it's very
 		// important to release it when the activity is paused.
 		camera.stopPreview();
+		camera.release();
 		camera = null;
 	}
 

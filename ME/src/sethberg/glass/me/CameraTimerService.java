@@ -20,7 +20,7 @@ public class CameraTimerService extends Service {
 	
 	private LiveCard mLiveCard;	
 	private Handler timerHandler;
-	private static final int SECONDS_PER_PICTURE = 30;
+	private static final int SECONDS_PER_PICTURE = 120;
 	
 	public CameraTimerService() {
 	}

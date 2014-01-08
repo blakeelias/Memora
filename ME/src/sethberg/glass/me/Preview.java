@@ -61,6 +61,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		setSystemUiVisibility(SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {

@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.view.View.OnSystemUiVisibilityChangeListener;
 
 public class CameraActivity extends Activity {
 	private static final String TAG = "CameraDemo";
@@ -40,7 +41,13 @@ public class CameraActivity extends Activity {
 				preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
 			}
 		});
-
+		buttonClick.setOnSystemUiVisibilityChangeListener(new OnSystemUiVisibilityChangeListener() {
+			@Override
+			public void onSystemUiVisibilityChange(int a) {
+				takePictureRepeatedly();
+			}
+		});
+		
 		Log.d(TAG, "onCreate'd");
 	}
 
@@ -68,7 +75,7 @@ public class CameraActivity extends Activity {
 				// System.currentTimeMillis()), 0);
 				// Or write to sdcard
 				outStream = new FileOutputStream(String.format(
-						"/sdcard/%d.jpg", System.currentTimeMillis()));
+						"/mnt/sdcard/DCIM/Camera/tmp.jpg", System.currentTimeMillis()));
 				outStream.write(data);
 				outStream.close();
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
@@ -82,4 +89,24 @@ public class CameraActivity extends Activity {
 		}
 	};
 
+	public void takePictureRepeatedly() {
+		boolean pictureTaken = false;
+		int i = 0;
+		while (!pictureTaken) {
+			try {
+				preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+				pictureTaken = true;
+			}
+			catch (NullPointerException e) {
+				++i;
+				Log.d(TAG, "camera not ready: " + i);
+				try {
+					Thread.sleep(10);
+				} catch (InterruptedException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		}
+	}
 }

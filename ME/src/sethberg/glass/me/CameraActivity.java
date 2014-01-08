@@ -7,6 +7,8 @@ import android.view.Menu;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import android.app.Activity;
 import android.hardware.Camera;
@@ -87,17 +89,19 @@ public class CameraActivity extends Activity {
 	PictureCallback jpegCallback = new PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			FileOutputStream outStream = null;
+			String filepath = "/mnt/sdcard/DCIM/Camera/" + new SimpleDateFormat("YYYYMMdd_HHmmss_SSS").format(new Date()) + ".jpg";
 			try {
 				// write to local sandbox file system
 				// outStream =
 				// CameraDemo.this.openFileOutput(String.format("%d.jpg",
 				// System.currentTimeMillis()), 0);
 				// Or write to sdcard
-				outStream = new FileOutputStream(String.format(
-						"/mnt/sdcard/DCIM/Camera/a%d.jpg", System.currentTimeMillis()));
+				outStream = new FileOutputStream(filepath);
 				outStream.write(data);
 				outStream.close();
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
+				new PhotoLocationTagging(getBaseContext()).setLocation(filepath);
+				Log.d(TAG, "set location tag");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

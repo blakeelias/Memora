@@ -44,7 +44,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 					FileOutputStream outStream = null;
 					try {
 						outStream = new FileOutputStream(String.format(
-								"/sdcard/%d.jpg", System.currentTimeMillis()));
+								"/mnt/sdcard/DCIM/Camera/me/preview/%d.jpg", System.currentTimeMillis()));
 						outStream.write(data);
 						outStream.close();
 						Log.d(TAG, "onPreviewFrame - wrote bytes: "

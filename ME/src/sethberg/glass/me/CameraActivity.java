@@ -34,21 +34,40 @@ public class CameraActivity extends Activity {
 
 		preview = new Preview(this);
 		((FrameLayout) findViewById(R.id.preview)).addView(preview);
+		camera = preview.camera;
 
 		buttonClick = (Button) findViewById(R.id.buttonClick);
 		buttonClick.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
-				preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+				//preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
 			}
 		});
 		buttonClick.setOnSystemUiVisibilityChangeListener(new OnSystemUiVisibilityChangeListener() {
 			@Override
 			public void onSystemUiVisibilityChange(int a) {
-				takePictureRepeatedly();
+				//takePictureRepeatedly();
+				Log.d(TAG, "about to call takePicture()");
+				camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+				Log.d(TAG, "called takePicture()");
 			}
 		});
 		
 		Log.d(TAG, "onCreate'd");
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		camera.release();
+		camera = null;
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		if (camera == null) {
+			camera = Camera.open();
+		}
 	}
 
 	ShutterCallback shutterCallback = new ShutterCallback() {
@@ -75,7 +94,7 @@ public class CameraActivity extends Activity {
 				// System.currentTimeMillis()), 0);
 				// Or write to sdcard
 				outStream = new FileOutputStream(String.format(
-						"/mnt/sdcard/DCIM/Camera/tmp.jpg", System.currentTimeMillis()));
+						"/mnt/sdcard/memora/images/%d.jpg", System.currentTimeMillis()));
 				outStream.write(data);
 				outStream.close();
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
@@ -86,6 +105,10 @@ public class CameraActivity extends Activity {
 			} finally {
 			}
 			Log.d(TAG, "onPictureTaken - jpeg");
+			camera.release();
+			Log.d(TAG, "released camera");
+			finish();
+			Log.d(TAG, "called finish()");
 		}
 	};
 

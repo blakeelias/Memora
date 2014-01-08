@@ -37,18 +37,18 @@ public class CameraActivity extends Activity {
 		camera = preview.camera;
 
 		buttonClick = (Button) findViewById(R.id.buttonClick);
-		buttonClick.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				//preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-			}
-		});
+		
 		buttonClick.setOnSystemUiVisibilityChangeListener(new OnSystemUiVisibilityChangeListener() {
+			private boolean tookPicture = false;
+
 			@Override
 			public void onSystemUiVisibilityChange(int a) {
-				//takePictureRepeatedly();
-				Log.d(TAG, "about to call takePicture()");
-				camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-				Log.d(TAG, "called takePicture()");
+				Log.d(TAG, "about to takePicture()");
+				if (!tookPicture ) {
+					preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+				}
+				tookPicture = true;
+				Log.d(TAG, "takePicture()'d");
 			}
 		});
 		
@@ -94,7 +94,7 @@ public class CameraActivity extends Activity {
 				// System.currentTimeMillis()), 0);
 				// Or write to sdcard
 				outStream = new FileOutputStream(String.format(
-						"/mnt/sdcard/memora/images/%d.jpg", System.currentTimeMillis()));
+						"/mnt/sdcard/DCIM/Camera/a%d.jpg", System.currentTimeMillis()));
 				outStream.write(data);
 				outStream.close();
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
@@ -105,31 +105,20 @@ public class CameraActivity extends Activity {
 			} finally {
 			}
 			Log.d(TAG, "onPictureTaken - jpeg");
-			camera.release();
-			Log.d(TAG, "released camera");
 			finish();
-			Log.d(TAG, "called finish()");
+			Log.d(TAG, "finish()'d");
 		}
 	};
-
-	public void takePictureRepeatedly() {
-		boolean pictureTaken = false;
-		int i = 0;
-		while (!pictureTaken) {
-			try {
-				preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
-				pictureTaken = true;
-			}
-			catch (NullPointerException e) {
-				++i;
-				Log.d(TAG, "camera not ready: " + i);
-				try {
-					Thread.sleep(10);
-				} catch (InterruptedException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		Log.d(TAG, "onDestroy()'d");
+	}
+	
+	@Override
+	public void onStop() {
+		super.onDestroy();
+		Log.d(TAG, "onStop()'d");
 	}
 }

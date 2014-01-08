@@ -35,6 +35,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		// The Surface has been created, acquire the camera and tell it where
 		// to draw.
 		camera = Camera.open();
+		Log.d(TAG, "Camera.open()'d");
 		try {
 			camera.setPreviewDisplay(holder);
 
@@ -42,7 +43,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 
 				public void onPreviewFrame(byte[] data, Camera arg1) {
 					FileOutputStream outStream = null;
-					try {
+					/*try {
 						outStream = new FileOutputStream(String.format(
 								"/mnt/sdcard/DCIM/Camera/me/preview/%d.jpg", System.currentTimeMillis()));
 						outStream.write(data);
@@ -54,7 +55,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 					} catch (IOException e) {
 						e.printStackTrace();
 					} finally {
-					}
+					}*/
 					Preview.this.invalidate();
 				}
 			});
@@ -69,6 +70,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		// Because the CameraDevice object is not a shared resource, it's very
 		// important to release it when the activity is paused.
 		camera.stopPreview();
+		camera.release();
 		camera = null;
 	}
 

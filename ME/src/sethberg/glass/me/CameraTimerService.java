@@ -17,19 +17,10 @@ import android.widget.RemoteViews;
 public class CameraTimerService extends Service {
 	
 	private static final String LOG_TAG = "Camera Timer Service";
-	private static final int SECONDS_PER_PICTURE = 15;
 	
 	private LiveCard mLiveCard;	
 	private Handler timerHandler;
-	private Context thisContext = this;
-	
-	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
-		@Override
-  	  	public void onReceive(Context context, Intent intent) {
-			Log.d(LOG_TAG, "Got message");
- 	  
-  	  	}
-	};
+	private static final int SECONDS_PER_PICTURE = 30;
 	
 	public CameraTimerService() {
 	}
@@ -94,8 +85,8 @@ public class CameraTimerService extends Service {
 	    {
 	         Log.d(LOG_TAG, "Timer Fired");
 	         //TODO Blake, this is where you should put your picture taking call.
-	         Intent cameraIntent = new Intent(thisContext, CameraActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	         startActivity(cameraIntent);
+	         Intent intent = new Intent(getBaseContext(), CameraActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	         startActivity(intent);
 	         timerHandler.postDelayed(this, SECONDS_PER_PICTURE*1000);
 	    }
 	};

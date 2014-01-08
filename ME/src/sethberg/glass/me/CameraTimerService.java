@@ -6,6 +6,7 @@ import com.google.android.glass.timeline.LiveCard.PublishMode;
 
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -19,6 +20,14 @@ public class CameraTimerService extends Service {
 	private LiveCard mLiveCard;	
 	private Handler timerHandler;
 	private static final int SECONDS_PER_PICTURE = 15;
+	
+	private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+		@Override
+  	  	public void onReceive(Context context, Intent intent) {
+			Log.d(LOG_TAG, "Got message");
+ 	  
+  	  	}
+	};
 	
 	public CameraTimerService() {
 	}

@@ -1,5 +1,6 @@
 package sethberg.glass.me;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -41,9 +42,11 @@ public class MainActivity extends Activity {
                 closeOptionsMenu();
                 return true;
             case R.id.capture:
-            	Intent cameraIntent = new Intent(this, CameraActivity.class);
-            	cameraIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            	startActivity(cameraIntent);
+            	//Intent cameraIntent = new Intent(this, CameraActivity.class);
+            	//cameraIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            	//startActivity(cameraIntent);
+            	PhotoLocationTagging tag = new PhotoLocationTagging(getApplicationContext());
+            	tag.getLocation();
             	return true;
             default:
                 return super.onOptionsItemSelected(item);

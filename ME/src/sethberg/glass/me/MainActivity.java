@@ -45,8 +45,9 @@ public class MainActivity extends Activity {
             	//Intent cameraIntent = new Intent(this, CameraActivity.class);
             	//cameraIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             	//startActivity(cameraIntent);
+            	String filepath = "This is a bad path";
             	PhotoLocationTagging tag = new PhotoLocationTagging(getApplicationContext());
-            	tag.getLocation();
+            	tag.setLocation(filepath);
             	return true;
             default:
                 return super.onOptionsItemSelected(item);

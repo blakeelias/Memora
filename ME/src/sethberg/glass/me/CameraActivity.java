@@ -75,7 +75,7 @@ public class CameraActivity extends Activity {
 				// System.currentTimeMillis()), 0);
 				// Or write to sdcard
 				outStream = new FileOutputStream(String.format(
-						"/mnt/sdcard/DCIM/Camera/tmp.jpg", System.currentTimeMillis()));
+						"/mnt/sdcard/DCIM/Camera/a%d.jpg", System.currentTimeMillis()));
 				outStream.write(data);
 				outStream.close();
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);

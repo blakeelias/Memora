@@ -20,7 +20,7 @@ public class CameraTimerService extends Service {
 	
 	private LiveCard mLiveCard;	
 	private Handler timerHandler;
-	private static final int SECONDS_PER_PICTURE = 120;
+	private static final int SECONDS_PER_PICTURE = 15;
 	
 	public CameraTimerService() {
 	}
@@ -37,6 +37,7 @@ public class CameraTimerService extends Service {
         super.onCreate();
         
         timerHandler = new Handler();
+        timerRunnable.setPriority(Thread.MAX_PRIORITY);
         timerRunnable.run();
         
         publishMainActivityCard(this);
@@ -78,15 +79,16 @@ public class CameraTimerService extends Service {
 	    }
 	}
 	
-	private Runnable timerRunnable = new Runnable() 
+	private Thread timerRunnable = new Thread() 
 	{
 
 	    public void run() 
 	    {
 	         Log.d(LOG_TAG, "Timer Fired");
+	         FileLog.println("Timer Fired");
 	         //TODO Blake, this is where you should put your picture taking call.
-	         Intent intent = new Intent(getBaseContext(), CameraActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	         startActivity(intent);
+	         //Intent intent = new Intent(getBaseContext(), CameraActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+	         //startActivity(intent);
 	         timerHandler.postDelayed(this, SECONDS_PER_PICTURE*1000);
 	    }
 	};

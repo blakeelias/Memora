@@ -45,14 +45,6 @@ public class MainActivity extends Activity {
                 closeOptionsMenu();
                 return true;
             case R.id.capture:
-            	//Intent cameraIntent = new Intent(this, CameraActivity.class);
-            	//cameraIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            	//startActivity(cameraIntent);
-            	String filepath = "/mnt/sdcard/DCIM/Camera/tmp.jpg";
-            	//String filepath = Environment.getExternalStorageDirectory()+File.separator+"memora";
-            	//Not opening this filepath.
-            	PhotoLocationTagging tag = new PhotoLocationTagging(getApplicationContext());
-            	tag.setLocation(filepath);
             	return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.hardware.Camera;
@@ -56,21 +57,6 @@ public class CameraActivity extends Activity {
 		
 		Log.d(TAG, "onCreate'd");
 	}
-	
-	@Override
-	public void onPause() {
-		super.onPause();
-		camera.release();
-		camera = null;
-	}
-	
-	@Override
-	public void onResume() {
-		super.onResume();
-		if (camera == null) {
-			camera = Camera.open();
-		}
-	}
 
 	ShutterCallback shutterCallback = new ShutterCallback() {
 		public void onShutter() {
@@ -89,7 +75,7 @@ public class CameraActivity extends Activity {
 	PictureCallback jpegCallback = new PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			FileOutputStream outStream = null;
-			String filepath = "/mnt/sdcard/DCIM/Camera/" + new SimpleDateFormat("YYYYMMdd_HHmmss_SSS").format(new Date()) + ".jpg";
+			String filepath = String.format("/mnt/sdcard/DCIM/Camera/a%s.jpg", String.valueOf(System.currentTimeMillis())); //+ new SimpleDateFormat("YYYYMMdd_HHmmss_SSS", Locale.US).format(new Date()) + ".jpg";
 			try {
 				// write to local sandbox file system
 				// outStream =

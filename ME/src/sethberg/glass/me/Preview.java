@@ -1,12 +1,8 @@
 package sethberg.glass.me;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
 import android.content.Context;
@@ -66,8 +62,7 @@ class Preview extends SurfaceView implements SurfaceHolder.Callback {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		setSystemUiVisibility(SYSTEM_UI_FLAG_HIDE_NAVIGATION); // to trigger onSystemUiVisibilityChange() in CameraActivity
-		FileLog.println("called setSystemUiVisibility(SYSTEM_UI_FLAG_HIDE_NAVIGATION);");
+		setSystemUiVisibility(SYSTEM_UI_FLAG_HIDE_NAVIGATION);
 	}
 
 	public void surfaceDestroyed(SurfaceHolder holder) {

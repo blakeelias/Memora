@@ -33,17 +33,15 @@ public class CameraTimerService extends Service {
 		Log.d(LOG_TAG, "Service Started");
         super.onCreate();
         publishMainActivityCard(this);
+        alarm.SetAlarm(this);
 	}
-	
-	public void onStart(Context context,Intent intent, int startId) {
-        alarm.SetAlarm(context);
-    }
 	
 	@Override
     public void onDestroy() {
     	Log.d(LOG_TAG, "ME Service Destroyed");
+    	alarm.CancelAlarm(this);
     	unpublishCard(this);
-        super.onDestroy();
+    	super.onDestroy();
     }
 
 	

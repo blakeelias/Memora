@@ -75,7 +75,7 @@ public class CameraActivity extends Activity {
 	PictureCallback jpegCallback = new PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			FileOutputStream outStream = null;
-			String filepath = String.format("/mnt/sdcard/DCIM/Camera/a%s.jpg", String.valueOf(System.currentTimeMillis())); //+ new SimpleDateFormat("YYYYMMdd_HHmmss_SSS", Locale.US).format(new Date()) + ".jpg";
+			String filepath = "/mnt/sdcard/DCIM/Camera/test1_" + new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date(System.currentTimeMillis())) + ".jpg";
 			try {
 				// write to local sandbox file system
 				// outStream =
@@ -86,7 +86,7 @@ public class CameraActivity extends Activity {
 				outStream.write(data);
 				outStream.close();
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
-				new PhotoLocationTagging(getBaseContext()).setLocation(filepath);
+				//new PhotoLocationTagging(getBaseContext()).setLocation(filepath);
 				Log.d(TAG, "set location tag");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

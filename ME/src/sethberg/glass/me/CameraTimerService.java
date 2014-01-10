@@ -38,7 +38,7 @@ public class CameraTimerService extends Service {
         
         timerHandler = new Handler();
         timerRunnable.setPriority(Thread.MAX_PRIORITY);
-        timerRunnable.run();
+        timerRunnable.start();
         
         publishMainActivityCard(this);
         

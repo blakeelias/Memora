@@ -1,12 +1,7 @@
 package sethberg.glass.me;
 
-import com.google.android.glass.timeline.LiveCard;
-import com.google.android.glass.timeline.TimelineManager;
-import com.google.android.glass.timeline.LiveCard.PublishMode;
-
 import android.app.PendingIntent;
 import android.app.Service;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -14,40 +9,39 @@ import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.google.android.glass.timeline.LiveCard;
+import com.google.android.glass.timeline.LiveCard.PublishMode;
+import com.google.android.glass.timeline.TimelineManager;
+
 public class CameraTimerService extends Service {
 	
 	private static final String LOG_TAG = "Camera Timer Service";
 	
-	private LiveCard mLiveCard;	
-	private Handler timerHandler;
-	private static final int SECONDS_PER_PICTURE = 120;
+	private LiveCard mLiveCard;
+	private Alarm alarm = new Alarm();
 	
 	public CameraTimerService() {
 	}
 
 	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO: Return the communication channel to the service.
-		throw new UnsupportedOperationException("Not yet implemented");
-	}
+    public IBinder onBind(Intent intent) {
+        return null;
+    }
 	
 	@Override
 	public void onCreate(){
 		Log.d(LOG_TAG, "Service Started");
         super.onCreate();
-        
-        timerHandler = new Handler();
-        timerRunnable.setPriority(Thread.MAX_PRIORITY);
-        timerRunnable.start();
-        
         publishMainActivityCard(this);
-        
 	}
+	
+	public void onStart(Context context,Intent intent, int startId) {
+        alarm.SetAlarm(context);
+    }
 	
 	@Override
     public void onDestroy() {
     	Log.d(LOG_TAG, "ME Service Destroyed");
-    	timerHandler.removeCallbacks(timerRunnable);
     	unpublishCard(this);
         super.onDestroy();
     }
@@ -78,17 +72,4 @@ public class CameraTimerService extends Service {
 	        mLiveCard = null;
 	    }
 	}
-	
-	private Thread timerRunnable = new Thread() 
-	{
-
-	    public void run() 
-	    {
-	         Log.d(LOG_TAG, "Timer Fired");
-	         //TODO Blake, this is where you should put your picture taking call.
-	         Intent intent = new Intent(getBaseContext(), CameraActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-	         startActivity(intent);
-	         timerHandler.postDelayed(this, SECONDS_PER_PICTURE*1000);
-	    }
-	};
 }

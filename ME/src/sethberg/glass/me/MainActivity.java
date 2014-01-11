@@ -17,7 +17,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		CameraActivity.startTime = CameraActivity.FILE_NAME_DATE_FORMAT.format(new Date());
 	}
 	
 	@Override

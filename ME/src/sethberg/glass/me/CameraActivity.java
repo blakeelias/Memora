@@ -79,7 +79,7 @@ public class CameraActivity extends Activity {
 			FileOutputStream outStream = null;
 
 			String captureTime = FILE_NAME_DATE_FORMAT.format(new Date(System.currentTimeMillis()));
-			String commitHash = "ec8d872"; // This string will be one commit behind when checked out from commit history. Replace with current commit hash from 'git status' before running.
+			String commitHash = "7cd36c4"; // This string will be one commit behind when checked out from commit history. Replace with current commit hash from 'git status' before running.
 
 			String filepath = String.format("/mnt/sdcard/DCIM/Camera/%s_%s_%s.jpg", startTime, commitHash, captureTime);
 

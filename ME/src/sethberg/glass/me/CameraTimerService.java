@@ -1,5 +1,7 @@
 package sethberg.glass.me;
 
+import java.util.Date;
+
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
@@ -32,6 +34,7 @@ public class CameraTimerService extends Service {
 		Log.d(LOG_TAG, "Service Started");
         super.onCreate();
         publishMainActivityCard(this);
+        CameraActivity.startTime = CameraActivity.FILE_NAME_DATE_FORMAT.format(new Date());
         alarm.SetAlarm(this);
 	}
 	

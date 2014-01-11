@@ -1,15 +1,10 @@
 package sethberg.glass.me;
 
-import android.os.Bundle;
-import android.app.Activity;
-import android.view.Menu;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 import android.app.Activity;
 import android.hardware.Camera;
@@ -17,11 +12,10 @@ import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
+import android.view.KeyEvent;
+import android.view.View.OnSystemUiVisibilityChangeListener;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.view.View.OnSystemUiVisibilityChangeListener;
 
 public class CameraActivity extends Activity {
 	private static final String TAG = "CameraDemo";
@@ -30,6 +24,7 @@ public class CameraActivity extends Activity {
 	Preview preview;
 	Button buttonClick;
 	public static String startTime = null;
+	private boolean interrupted = false;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -49,15 +44,33 @@ public class CameraActivity extends Activity {
 			@Override
 			public void onSystemUiVisibilityChange(int a) {
 				Log.d(TAG, "about to takePicture()");
-				if (!tookPicture ) {
+				if (!tookPicture && !interrupted) {
 					preview.camera.takePicture(shutterCallback, rawCallback, jpegCallback);
+					tookPicture = true;
 				}
-				tookPicture = true;
 				Log.d(TAG, "takePicture()'d");
 			}
 		});
 
 		Log.d(TAG, "onCreate'd");
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_CAMERA) {
+	        // Stop the preview and release the camera.
+	        // Execute your logic as quickly as possible
+	        // so the capture happens quickly.
+	    	
+	    	//TODO(Blake): allow the activity to resume one time
+	    	/*interrupted = true;
+	    	preview.surfaceDestroyed(preview.getHolder());*/
+	    	interrupted = true;
+	    	finish();
+	        return false;
+	    } else {
+	        return super.onKeyDown(keyCode, event);
+	    }
 	}
 
 	ShutterCallback shutterCallback = new ShutterCallback() {
@@ -79,7 +92,7 @@ public class CameraActivity extends Activity {
 			FileOutputStream outStream = null;
 
 			String captureTime = FILE_NAME_DATE_FORMAT.format(new Date(System.currentTimeMillis()));
-			String commitHash = "7cd36c4"; // This string will be one commit behind when checked out from commit history. Replace with current commit hash from 'git status' before running.
+			String commitHash = "9d51ecd"; // This string will be one commit behind when checked out from commit history. Replace with current commit hash from 'git status' before running.
 
 			String filepath = String.format("/mnt/sdcard/DCIM/Camera/%s_%s_%s.jpg", startTime, commitHash, captureTime);
 

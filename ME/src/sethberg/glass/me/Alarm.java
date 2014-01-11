@@ -16,6 +16,7 @@ public class Alarm extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		Log.d(LOG_TAG, "onReceive'd");
 		PowerManager pm = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
 		wl.acquire();
@@ -23,8 +24,13 @@ public class Alarm extends BroadcastReceiver {
 		// Put here YOUR code.
 		Log.d(LOG_TAG, "alarm fired");
 		FileLog.println("alarm fired");
-		Intent cameraIntent = new Intent(context, CameraActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.startActivity(cameraIntent);
+		//Add logic to check if screen is on
+		if (!pm.isScreenOn()){
+			Log.d(LOG_TAG, "Screen off registered");
+			Intent cameraIntent = new Intent(context, CameraActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			context.startActivity(cameraIntent);
+			Log.d(LOG_TAG, "Pic activity started");
+		}
 
 		wl.release();
 	}

@@ -86,7 +86,7 @@ public class CameraActivity extends Activity {
 				outStream.write(data);
 				outStream.close();
 				Log.d(TAG, "onPictureTaken - wrote bytes: " + data.length);
-				//new PhotoLocationTagging(getBaseContext()).setLocation(filepath);
+				new PhotoLocationTagging(getBaseContext()).setLocation(filepath);
 				Log.d(TAG, "set location tag");
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();

@@ -22,27 +22,9 @@ public class PhotoLocationTagging {
 	
 	public PhotoLocationTagging(Context context){
 		//There is a warning here, because it wants a static context. The argument to this must be
-		//getApplicationContext()
 		locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
 		criteria = new Criteria();
 		criteria.setAccuracy(Criteria.ACCURACY_FINE);
-		
-		/*
-		locationListener = new LocationListener() {
-		    public void onLocationChanged(Location location) {
-		    	// Called when a new location is found by the network location provider.
-		    	Log.d(LOG_TAG, "Got location update: " + location.toString());
-		    	locationManager.removeUpdates(locationListener);
-		    	setGpsExif(location);
-		    }
-
-		    public void onStatusChanged(String provider, int status, Bundle extras) {}
-
-		    public void onProviderEnabled(String provider) {}
-
-		    public void onProviderDisabled(String provider) {}
-		  };
-		*/
 	}
 	
 	public void setLocation(String filepath){

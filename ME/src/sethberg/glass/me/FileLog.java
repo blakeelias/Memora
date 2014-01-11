@@ -8,8 +8,6 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.util.Log;
-
 public class FileLog {
 	public static void println(String message) {
 		try {

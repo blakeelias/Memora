@@ -1,5 +1,7 @@
 package sethberg.glass.me;
 
+import java.util.Date;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -9,14 +11,13 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 
 public class MainActivity extends Activity {
-	
-	
 	private static final String LOG_TAG = "Main Activity";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		CameraActivity.startTime = CameraActivity.FILE_NAME_DATE_FORMAT.format(new Date());
 	}
 	
 	@Override
@@ -37,6 +38,7 @@ public class MainActivity extends Activity {
             case R.id.stop:
             	Log.d(LOG_TAG, "Quitting ME");
                 stopService(new Intent(this, CameraTimerService.class));
+                CameraActivity.startTime = null;
                 finish();
                 closeOptionsMenu();
                 return true;

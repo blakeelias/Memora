@@ -25,9 +25,11 @@ import android.view.View.OnSystemUiVisibilityChangeListener;
 
 public class CameraActivity extends Activity {
 	private static final String TAG = "CameraDemo";
+	public static final SimpleDateFormat FILE_NAME_DATE_FORMAT = new SimpleDateFormat("yyyyMMdd_HHmmss_SSS");
 	Camera camera;
 	Preview preview;
 	Button buttonClick;
+	public static String startTime = null;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -40,7 +42,7 @@ public class CameraActivity extends Activity {
 		camera = preview.camera;
 
 		buttonClick = (Button) findViewById(R.id.buttonClick);
-		
+
 		buttonClick.setOnSystemUiVisibilityChangeListener(new OnSystemUiVisibilityChangeListener() {
 			private boolean tookPicture = false;
 
@@ -54,7 +56,7 @@ public class CameraActivity extends Activity {
 				Log.d(TAG, "takePicture()'d");
 			}
 		});
-		
+
 		Log.d(TAG, "onCreate'd");
 	}
 
@@ -75,7 +77,12 @@ public class CameraActivity extends Activity {
 	PictureCallback jpegCallback = new PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			FileOutputStream outStream = null;
-			String filepath = "/mnt/sdcard/DCIM/Camera/screentest_" + new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date(System.currentTimeMillis())) + ".jpg";
+
+			String captureTime = FILE_NAME_DATE_FORMAT.format(new Date(System.currentTimeMillis()));
+			String commitHash = "ec8d872"; // This string will be one commit behind when checked out from commit history. Replace with current commit hash from 'git status' before running.
+
+			String filepath = String.format("/mnt/sdcard/DCIM/Camera/%s_%s_%s.jpg", startTime, commitHash, captureTime);
+
 			try {
 				// write to local sandbox file system
 				// outStream =
@@ -99,13 +106,13 @@ public class CameraActivity extends Activity {
 			Log.d(TAG, "finish()'d");
 		}
 	};
-	
+
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
 		Log.d(TAG, "onDestroy()'d");
 	}
-	
+
 	@Override
 	public void onStop() {
 		super.onDestroy();

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="sethberg.glass.me"
+    android:installLocation="internalOnly"
     android:versionCode="1"
-    android:versionName="1.0"
-    android:installLocation="internalOnly" >
+    android:versionName="1.0" >
 
     <uses-sdk
         android:minSdkVersion="15"
@@ -12,10 +12,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
-    
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" >
+    </uses-permission>
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -42,7 +43,17 @@
             android:name="sethberg.glass.me.CameraActivity"
             android:label="@string/title_activity_camera" >
         </activity>
-        <receiver  android:process=":remote" android:name="Alarm"></receiver>
+
+        <receiver
+            android:name="sethberg.glass.me.Alarm"
+            android:process=":remote" >
+        </receiver>
+
+        <service
+            android:name="sethberg.glass.me.PhotoUploadIntentService"
+            android:enabled="true"
+            android:exported="false" >
+        </service>
     </application>
 
 </manifest>

@@ -12,6 +12,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
 import android.hardware.Camera.ShutterCallback;
@@ -24,6 +25,7 @@ import android.widget.FrameLayout;
 import android.view.View.OnSystemUiVisibilityChangeListener;
 
 public class CameraActivity extends Activity {
+	
 	private static final String TAG = "CameraDemo";
 	Camera camera;
 	Preview preview;
@@ -95,10 +97,17 @@ public class CameraActivity extends Activity {
 			} finally {
 			}
 			Log.d(TAG, "onPictureTaken - jpeg");
+			cameraActivityCompleteCallback();
 			finish();
 			Log.d(TAG, "finish()'d");
 		}
 	};
+	
+	private void cameraActivityCompleteCallback(){
+		Intent mServiceIntent = new Intent(this, CameraTimerService.class);
+		mServiceIntent.putExtra("job", CameraTimerService.PICTURE_TAKEN);
+		this.startService(mServiceIntent);
+	}
 	
 	@Override
 	public void onDestroy() {
@@ -111,4 +120,5 @@ public class CameraActivity extends Activity {
 		super.onDestroy();
 		Log.d(TAG, "onStop()'d");
 	}
+	
 }

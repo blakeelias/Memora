@@ -12,7 +12,7 @@ import sethberg.glass.me.*;
 
 public class Alarm extends BroadcastReceiver {
 	private static final String LOG_TAG = "Alarm";
-	private static final int SECONDS_PER_PICTURE = 20;
+	private static final int SECONDS_PER_PICTURE = 60;
 
 	@Override
 	public void onReceive(Context context, Intent intent) {

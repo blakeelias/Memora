@@ -4,5 +4,5 @@ from photos import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
-    url(r'^photos/upload/$','upload_photo'),
+    url(r'^upload/$','upload_photo'),
 )

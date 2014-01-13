@@ -116,6 +116,9 @@ public class CameraTimerService extends Service {
 	}
 	
 	private void networkStateChange(){
+		//This will send an intent to PhotoUploadService even if WIFI is on, something else changes
+		//and then WIFI is still on. This is handled in the IntentService, but it could be more efficient to
+		//Account for it here rather than send spurious intents.
 		wifiConnected = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
 		if(wifiConnected){
 			//Send intent to begin upload

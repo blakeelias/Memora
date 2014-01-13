@@ -1,5 +1,8 @@
 package sethberg.glass.me;
 
+import java.io.File;
+import java.io.IOException;
+
 import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.app.Service;
@@ -8,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
+import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.util.Log;
@@ -20,7 +24,7 @@ import com.google.android.glass.timeline.TimelineManager;
 public class CameraTimerService extends Service {
 	
 	private static final String LOG_TAG = "Camera Timer Service";
-	public static final String PHOTO_DIRECTORY = "something?";
+	public static final String PHOTO_DIRECTORY = Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera"+File.separator+"me"+File.separator;
 	//Intent extra constants
 	public static final int DEFAULT = 0;
 	public static final int TAKE_PICTURE = 1;	
@@ -37,6 +41,7 @@ public class CameraTimerService extends Service {
 
 	    @Override
 	    public void onReceive(Context context, Intent intent) {
+	    	Log.d("LOG_TAG", "Network state change broadcast received");
 	        networkStateChange();
 	    }
 	};
@@ -64,6 +69,10 @@ public class CameraTimerService extends Service {
 	public void onCreate(){
 		Log.d(LOG_TAG, "Service Started");
         super.onCreate();
+        //Create me directory if it does not already exist
+        createDirectory();
+        createTestFiles();
+        //
         publishMainActivityCard(this);
         //Setup connectivity broadcastReceiver
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);        
@@ -110,6 +119,7 @@ public class CameraTimerService extends Service {
 		wifiConnected = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
 		if(wifiConnected){
 			//Send intent to begin upload
+			Log.d(LOG_TAG, "Wifi Connected");
 			Intent mServiceIntent = new Intent(this, PhotoUploadIntentService.class);
 			this.startService(mServiceIntent);
 		}
@@ -139,5 +149,25 @@ public class CameraTimerService extends Service {
 	        mLiveCard.unpublish();
 	        mLiveCard = null;
 	    }
+	}
+	
+	private void createDirectory(){
+        File directory = new File(PHOTO_DIRECTORY);
+        if (!directory.isDirectory()){
+        	directory.mkdirs();
+        }
+	}
+	
+	private void createTestFiles(){
+		int i;
+		for(i = 0; i < 20; i++){
+			File f = new File(PHOTO_DIRECTORY + Integer.toString(i));
+			try {
+				f.createNewFile();
+			}
+			catch(IOException e) {
+				Log.d(LOG_TAG, e.toString());
+			}
+		}
 	}
 }

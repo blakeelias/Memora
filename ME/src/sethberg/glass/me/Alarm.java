@@ -14,7 +14,6 @@ public class Alarm extends BroadcastReceiver {
 	private void sendIntent(Context context){
 		Intent mServiceIntent = new Intent(context, CameraTimerService.class);
 		mServiceIntent.putExtra("job", CameraTimerService.TAKE_PICTURE);
-		//mServiceIntent.setAction("sethberg.glass.me.action.CAMERA_ALARM_FIRED");
 		context.startService(mServiceIntent);
 	}
 	
@@ -28,7 +27,7 @@ public class Alarm extends BroadcastReceiver {
 		AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
 		Intent i = new Intent(context, Alarm.class);
 		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * SECONDS_PER_PICTURE, pi); // Millisec * Second * Minute
+		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * SECONDS_PER_PICTURE, pi); 
 	}
 
 	public void CancelAlarm(Context context) {

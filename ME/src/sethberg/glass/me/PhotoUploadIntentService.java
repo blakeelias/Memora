@@ -6,7 +6,6 @@ import java.util.Arrays;
 
 import android.app.IntentService;
 import android.content.Intent;
-import android.os.IBinder;
 
 public class PhotoUploadIntentService extends IntentService {
 	
@@ -14,12 +13,6 @@ public class PhotoUploadIntentService extends IntentService {
 	
 	public PhotoUploadIntentService(String name) {
 		super(name);
-	}
-
-	@Override
-	public IBinder onBind(Intent intent) {
-		// TODO: Return the communication channel to the service.
-		throw new UnsupportedOperationException("Not yet implemented");
 	}
 	
 	@Override
@@ -31,6 +24,9 @@ public class PhotoUploadIntentService extends IntentService {
 	private void uploadPhotos(){
 		while (mlsFiles.size() > 0 && CameraTimerService.wifiConnected){
     		for (File currentFile : mlsFiles){
+    			if(!CameraTimerService.wifiConnected){
+    				break;
+    			}
     			//upload(currentFile);
     			//currentFile.delete();
     		}

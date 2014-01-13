@@ -41,8 +41,6 @@ public class CameraTimerService extends Service {
 	    }
 	};
 
-	
-
 	@Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 		int returnVal = super.onStartCommand(intent, flags, startId);
@@ -111,6 +109,7 @@ public class CameraTimerService extends Service {
 	private void networkStateChange(){
 		wifiConnected = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
 		if(wifiConnected){
+			//Send intent to begin upload
 			Intent mServiceIntent = new Intent(this, PhotoUploadIntentService.class);
 			this.startService(mServiceIntent);
 		}

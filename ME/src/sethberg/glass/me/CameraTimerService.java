@@ -14,6 +14,7 @@ import android.net.ConnectivityManager;
 import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
+import android.os.PowerManager.WakeLock;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -29,8 +30,10 @@ public class CameraTimerService extends Service {
 	public static final int DEFAULT = 0;
 	public static final int TAKE_PICTURE = 1;	
 	public static final int PICTURE_TAKEN = 2;
-	//
-	public boolean isUploading = false;
+	//WakeLock and powermanagement stuff
+	public static WakeLock mWakeLock;
+	private static PowerManager mPowerManager; // = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+	//pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
 	private LiveCard mLiveCard;
 	private Alarm alarm = new Alarm();
 	
@@ -80,7 +83,10 @@ public class CameraTimerService extends Service {
     	
         connectivityManager = (ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
         wifiConnected = connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).isConnected();
-        
+        //setup wakelock
+        mPowerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
+        mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
+        //SetAlarm
         alarm.SetAlarm(this);
 	}
 	
@@ -95,24 +101,19 @@ public class CameraTimerService extends Service {
 	@SuppressLint("Wakelock")
 	private void takePicture(){
 		Log.d(LOG_TAG, "onReceive'd");
-		PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
-		PowerManager.WakeLock wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
-		wl.acquire();
+		FileLog.println("onReceive'd");
 		
-		Log.d(LOG_TAG, "onAlarm'd");
-		FileLog.println("onAlarm'd");
-		
-		if (!pm.isScreenOn()){
+		if (!mPowerManager.isScreenOn()){
 			Log.d(LOG_TAG, "Screen off registered");
 			Intent cameraIntent = new Intent(this, CameraActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			this.startActivity(cameraIntent);
 			Log.d(LOG_TAG, "Pic activity started");
 		}
-		wl.release();
 	}
 	
 	private void pictureTaken(){
 		Log.d(LOG_TAG, "Picture taken callback'd");
+		mWakeLock.release();
 	}
 	
 	private void networkStateChange(){

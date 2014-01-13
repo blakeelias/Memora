@@ -1,5 +1,6 @@
 package sethberg.glass.me;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -17,8 +18,10 @@ public class Alarm extends BroadcastReceiver {
 		context.startService(mServiceIntent);
 	}
 	
+	@SuppressLint("Wakelock")
 	@Override
 	public void onReceive(Context context, Intent intent) {
+		CameraTimerService.mWakeLock.acquire();
 		Log.d(LOG_TAG, "Alarm fired");
 		sendIntent(context);
 	}

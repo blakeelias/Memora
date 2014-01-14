@@ -8,8 +8,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 public class MainActivity extends Activity {
-	
-	
 	private static final String LOG_TAG = "Main Activity";
 
 	@Override

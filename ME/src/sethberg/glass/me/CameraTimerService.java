@@ -1,6 +1,7 @@
 package sethberg.glass.me;
 
 import java.io.File;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.AlarmManager;
@@ -91,6 +92,7 @@ public class CameraTimerService extends Service {
         super.onCreate();
         //Create me directory if it does not already exist
         createDirectory();
+        CameraActivity.startTime = CameraActivity.FILE_NAME_DATE_FORMAT.format(new Date());
         
         publishMainActivityCard(this);
         //Setup connectivity broadcastReceiver
@@ -112,6 +114,7 @@ public class CameraTimerService extends Service {
     	cancelAlarm();
     	unregisterReceiver(networkStateReceiver);
     	unpublishCard(this);
+    	CameraActivity.startTime = null;
     	super.onDestroy();
     }
 	

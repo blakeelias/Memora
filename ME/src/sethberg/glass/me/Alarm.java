@@ -30,8 +30,8 @@ public class Alarm extends BroadcastReceiver {
 	
 	public void SetAlarm(Context context) {
 		AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		Intent intent = new Intent(context, Alarm.class).putExtra(CameraTimerService.JOB_EXTRA, CameraTimerService.TAKE_PICTURE);
-		toSend = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // changed PendingIntent.FLAG_UPDATE_CURRENT from 0 per http://stackoverflow.com/a/20157735/1476167
+		Intent intent = new Intent(context, CameraTimerService.class).putExtra(CameraTimerService.JOB_EXTRA, CameraTimerService.TAKE_PICTURE);
+		toSend = PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // changed PendingIntent.FLAG_UPDATE_CURRENT from 0 per http://stackoverflow.com/a/20157735/1476167
 		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * SECONDS_PER_PICTURE, toSend); 
 	}
 

@@ -11,6 +11,7 @@ import android.util.Log;
 public class Alarm extends BroadcastReceiver {
 	private static final String LOG_TAG = "Alarm";
 	private static final int SECONDS_PER_PICTURE = 20;
+	private PendingIntent toSend;
 	
 	private void sendIntent(Context context){
 		Intent mServiceIntent = new Intent(context, CameraTimerService.class);
@@ -21,22 +22,21 @@ public class Alarm extends BroadcastReceiver {
 	@SuppressLint("Wakelock")
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		CameraTimerService.mWakeLock.acquire();
+		//CameraTimerService.mWakeLock.acquire(); throws a NullPointerException
 		Log.d(LOG_TAG, "Alarm fired");
+		Log.d(LOG_TAG, "extra: " + intent.getIntExtra(CameraTimerService.JOB_EXTRA, -1));
 		sendIntent(context);
 	}
 	
 	public void SetAlarm(Context context) {
 		AlarmManager am=(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-		Intent i = new Intent(context, Alarm.class);
-		PendingIntent pi = PendingIntent.getBroadcast(context, 0, i, 0);
-		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * SECONDS_PER_PICTURE, pi); 
+		Intent intent = new Intent(context, Alarm.class).putExtra(CameraTimerService.JOB_EXTRA, CameraTimerService.TAKE_PICTURE);
+		toSend = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // changed PendingIntent.FLAG_UPDATE_CURRENT from 0 per http://stackoverflow.com/a/20157735/1476167
+		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * SECONDS_PER_PICTURE, toSend); 
 	}
 
 	public void CancelAlarm(Context context) {
-		Intent intent = new Intent(context, Alarm.class);
-		PendingIntent sender = PendingIntent.getBroadcast(context, 0, intent, 0);
 		AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(sender);
+		alarmManager.cancel(toSend);
 	}
 }

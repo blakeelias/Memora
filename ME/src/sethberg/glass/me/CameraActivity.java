@@ -77,7 +77,7 @@ public class CameraActivity extends Activity {
 	PictureCallback jpegCallback = new PictureCallback() {
 		public void onPictureTaken(byte[] data, Camera camera) {
 			FileOutputStream outStream = null;
-			String filepath = "/mnt/sdcard/DCIM/Camera/screentest_" + new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date(System.currentTimeMillis())) + ".jpg";
+			String filepath = CameraTimerService.PHOTO_DIRECTORY + new SimpleDateFormat("yyyyMMdd_HHmmss_SSS").format(new Date(System.currentTimeMillis())) + ".jpg";
 			try {
 				// write to local sandbox file system
 				// outStream =

@@ -25,11 +25,14 @@ import com.google.android.glass.timeline.TimelineManager;
 public class CameraTimerService extends Service {
 	
 	private static final String LOG_TAG = "Camera Timer Service";
-	public static final String PHOTO_DIRECTORY = Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"Camera"+File.separator+"me"+File.separator;
+	public static final String PHOTO_DIRECTORY = Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"me"+File.separator;
+	
 	//Intent extra constants
+	public static final String JOB_EXTRA = "job";
 	public static final int DEFAULT = 0;
 	public static final int TAKE_PICTURE = 1;	
 	public static final int PICTURE_TAKEN = 2;
+	
 	//WakeLock and powermanagement stuff
 	public static WakeLock mWakeLock;
 	private static PowerManager mPowerManager; // = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
@@ -52,7 +55,7 @@ public class CameraTimerService extends Service {
 	@Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 		int returnVal = super.onStartCommand(intent, flags, startId);
-		int extra = intent.getIntExtra("job", DEFAULT);
+		int extra = intent.getIntExtra(JOB_EXTRA, DEFAULT);
 		switch(extra){
 			case DEFAULT: 		break;
 			case TAKE_PICTURE: 	takePicture();
@@ -94,6 +97,7 @@ public class CameraTimerService extends Service {
     public void onDestroy() {
     	Log.d(LOG_TAG, "ME Service Destroyed");
     	alarm.CancelAlarm(this);
+    	unregisterReceiver(networkStateReceiver);
     	unpublishCard(this);
     	super.onDestroy();
     }
@@ -113,7 +117,7 @@ public class CameraTimerService extends Service {
 	
 	private void pictureTaken(){
 		Log.d(LOG_TAG, "Picture taken callback'd");
-		mWakeLock.release();
+		//mWakeLock.release();
 	}
 	
 	private void networkStateChange(){
@@ -125,7 +129,7 @@ public class CameraTimerService extends Service {
 			//Send intent to begin upload
 			Log.d(LOG_TAG, "Wifi Connected");
 			Intent mServiceIntent = new Intent(this, PhotoUploadIntentService.class);
-			this.startService(mServiceIntent);
+			//this.startService(mServiceIntent);
 		}
 	}
 	

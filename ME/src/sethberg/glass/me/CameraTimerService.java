@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -38,10 +39,12 @@ public class CameraTimerService extends Service {
 	private static PowerManager mPowerManager; // = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 	//pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
 	private LiveCard mLiveCard;
-	private Alarm alarm = new Alarm();
 	
 	public static boolean wifiConnected;
 	private ConnectivityManager connectivityManager;
+	//
+	private PendingIntent alarmPendingIntent;
+	private static final int SECONDS_PER_PICTURE = 20;
 	
 	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
 
@@ -71,6 +74,18 @@ public class CameraTimerService extends Service {
         return null;
     }
 	
+	public void setAlarm() {
+		AlarmManager am=(AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+		Intent intent = new Intent(this, CameraTimerService.class).putExtra(JOB_EXTRA, TAKE_PICTURE);
+		alarmPendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // changed PendingIntent.FLAG_UPDATE_CURRENT from 0 per http://stackoverflow.com/a/20157735/1476167
+		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * SECONDS_PER_PICTURE, alarmPendingIntent); 
+	}
+
+	public void cancelAlarm() {
+		AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
+		alarmManager.cancel(alarmPendingIntent);
+	}
+	
 	@Override
 	public void onCreate(){
 		Log.d(LOG_TAG, "Service Started");
@@ -90,13 +105,13 @@ public class CameraTimerService extends Service {
         mPowerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         //SetAlarm
-        alarm.SetAlarm(this);
+        setAlarm();
 	}
 	
 	@Override
     public void onDestroy() {
     	Log.d(LOG_TAG, "ME Service Destroyed");
-    	alarm.CancelAlarm(this);
+    	cancelAlarm();
     	unregisterReceiver(networkStateReceiver);
     	unpublishCard(this);
     	super.onDestroy();

@@ -1,12 +1,11 @@
 package sethberg.glass.me;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 	
@@ -35,32 +34,21 @@ public class MainActivity extends Activity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.stop:
-            	Log.d(LOG_TAG, "Quitting ME");
-                stopService(new Intent(this, CameraTimerService.class));
-                finish();
-                closeOptionsMenu();
-                return true;
-            case R.id.capture:
-            	return true;
+            	return quit();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
-	/**
-	 * @param brightness and integer between 0 and 100.
-	 * values below 0 set screen to default brightness. 
-	 * values above 100 set screen to max brightness.
-	 */
-	@SuppressWarnings("unused")
-	//This is currently unused because Glass automatically sets screen brightness.
-	private void changeBrightness(int brightness){
-		WindowManager.LayoutParams lp = getWindow().getAttributes();
-		lp.screenBrightness = Math.min(brightness, 1) / 100.0f;
-		getWindow().setAttributes(lp);
+
+	private boolean quit() {
+		Log.d(LOG_TAG, "Quitting ME");
+		stopService(new Intent(this, CameraTimerService.class));
+		closeOptionsMenu();
+		finish();
+		return true;
 	}
 	
 	public void onOptionsMenuClosed(Menu menu) {
         finish();
     }
-
 }

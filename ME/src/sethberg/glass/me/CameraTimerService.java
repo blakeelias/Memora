@@ -35,7 +35,7 @@ public class CameraTimerService extends Service {
 	public static final int PICTURE_TAKEN = 2;
 	
 	//WakeLock and powermanagement stuff
-	public static WakeLock mWakeLock;
+	private WakeLock mWakeLock;
 	private static PowerManager mPowerManager; // = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
 	//pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
 	private LiveCard mLiveCard;
@@ -119,6 +119,7 @@ public class CameraTimerService extends Service {
 	
 	@SuppressLint("Wakelock")
 	private void takePicture(){
+		mWakeLock.acquire();
 		Log.d(LOG_TAG, "onReceive'd");
 		FileLog.println("onReceive'd");
 		
@@ -132,7 +133,7 @@ public class CameraTimerService extends Service {
 	
 	private void pictureTaken(){
 		Log.d(LOG_TAG, "Picture taken callback'd");
-		//mWakeLock.release();
+		mWakeLock.release();
 	}
 	
 	private void networkStateChange(){

@@ -105,7 +105,7 @@ public class CameraActivity extends Activity {
 	
 	private void cameraActivityCompleteCallback(){
 		Intent mServiceIntent = new Intent(this, CameraTimerService.class);
-		mServiceIntent.putExtra("job", CameraTimerService.PICTURE_TAKEN);
+		mServiceIntent.putExtra(CameraTimerService.JOB_EXTRA, CameraTimerService.PICTURE_TAKEN);
 		this.startService(mServiceIntent);
 	}
 	

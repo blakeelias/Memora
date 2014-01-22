@@ -1,7 +1,35 @@
 import os
 from subprocess import call, check_output
 
+#######################################################################################
+#############################  EDIT CONFIGURATION BELOW   #############################
+#######################################################################################
+
+# Change this to your local path to adb, the Android Debug Bridge.
+# This can be found by locating the directory where you have the Android SDK installed,
+#   then appending to that path /platform-tools/adb
+# Test this out by opening a terminal and typing the path to this executable.
+# For example:
+#
+#   Blakes-MacBook-Air:local blake$ /Users/blake/Downloads/adt-bundle-mac-x86_64-20131030/sdk/platform-tools/adb
+#   Android Debug Bridge version 1.0.31
+#
+#    -a                            - directs adb to listen on all interfaces for a connection
+#    -d                            - directs command to the only connected USB device
+#                                    returns an error if more than one USB device is present.
+#    -e                            - directs command to the only running emulator.
+#                                    returns an error if more than one emulator is running.
+#    ...
+#
+# On Windows, slashes may need to be written as escaped back-slashes (eg. "C:\\path\\to\sdk\platform-tools\adb.exe")
+#
+# Fill in ADB path here:
 ADB_PATH = "/Users/blake/Downloads/adt-bundle-mac-x86_64-20131030/sdk/platform-tools/adb"
+
+#######################################################################################
+#############################   DO NOT EDIT BELOW HERE   ##############################
+#######################################################################################
+
 REMOTE_PHOTO_PATH = "/mnt/sdcard/DCIM/me/photos/"
 MANUAL_PHOTO_PATH = "/mnt/sdcard/DCIM/Camera/"
 LAST_MANUAL_PHOTO_PATH = "./last_manual_photo.txt"

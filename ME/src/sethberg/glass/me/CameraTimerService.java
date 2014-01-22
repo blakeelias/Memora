@@ -44,8 +44,10 @@ public class CameraTimerService extends Service {
 	public static boolean wifiConnected;
 	private ConnectivityManager connectivityManager;
 	
+	AlarmManager am;
+	
 	private PendingIntent alarmPendingIntent;
-	private static final int SECONDS_PER_PICTURE = 60;
+	private static final int SECONDS_PER_PICTURE = 20;
 	
 	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
 
@@ -76,15 +78,13 @@ public class CameraTimerService extends Service {
     }
 	
 	private void setAlarm() {
-		AlarmManager am=(AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
 		Intent intent = new Intent(this, CameraTimerService.class).putExtra(JOB_EXTRA, TAKE_PICTURE);
 		alarmPendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // changed PendingIntent.FLAG_UPDATE_CURRENT from 0 per http://stackoverflow.com/a/20157735/1476167
-		am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), 1000 * SECONDS_PER_PICTURE, alarmPendingIntent); 
+		am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * SECONDS_PER_PICTURE, alarmPendingIntent); 
 	}
 
 	private void cancelAlarm() {
-		AlarmManager alarmManager = (AlarmManager) this.getSystemService(Context.ALARM_SERVICE);
-		alarmManager.cancel(alarmPendingIntent);
+		am.cancel(alarmPendingIntent);
 	}
 	
 	@Override
@@ -106,6 +106,7 @@ public class CameraTimerService extends Service {
         mPowerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         
+        am = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
         setAlarm();
 	}
 	
@@ -130,6 +131,7 @@ public class CameraTimerService extends Service {
 			this.startActivity(cameraIntent);
 			Log.d(LOG_TAG, "Pic activity started");
 		}
+		setAlarm();
 	}
 	
 	private void pictureTaken(){

@@ -26,7 +26,8 @@ import com.google.android.glass.timeline.TimelineManager;
 public class CameraTimerService extends Service {
 	
 	private static final String LOG_TAG = "Camera Timer Service";
-	public static final String PHOTO_DIRECTORY = Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"me"+File.separator;
+	public static final String ME_DIRECTORY = Environment.getExternalStorageDirectory()+File.separator+"DCIM"+File.separator+"me"+File.separator;
+	public static final String PHOTO_DIRECTORY = ME_DIRECTORY + "photos" + File.separator; 
 	
 	//Intent extra constants
 	public static final String JOB_EXTRA = "job";
@@ -44,7 +45,7 @@ public class CameraTimerService extends Service {
 	private ConnectivityManager connectivityManager;
 	
 	private PendingIntent alarmPendingIntent;
-	private static final int SECONDS_PER_PICTURE = 20;
+	private static final int SECONDS_PER_PICTURE = 60;
 	
 	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
 

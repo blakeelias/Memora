@@ -77,7 +77,7 @@ public class CameraActivity extends Activity {
 			FileOutputStream outStream = null;
 
 			String captureTime = FILE_NAME_DATE_FORMAT.format(new Date(System.currentTimeMillis()));
-			String commitHash = "9d51ecd"; // This string will be one commit behind when checked out from commit history. Replace with current commit hash from 'git status' before running.
+			String commitHash = "1443b3a"; // This string will be one commit behind when checked out from commit history. Replace with current commit hash from 'git status' before running.
 
 			String filepath = String.format("%s/%s_%s_%s.jpg", CameraTimerService.PHOTO_DIRECTORY, startTime, commitHash, captureTime);
 

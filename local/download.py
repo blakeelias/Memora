@@ -1,3 +1,4 @@
+import os
 from subprocess import call, check_output
 
 ADB_PATH = "/Users/blake/Downloads/adt-bundle-mac-x86_64-20131030/sdk/platform-tools/adb"
@@ -11,7 +12,7 @@ def main():
 	pull_auto_photos(file_path)
 
 def get_file_path():
-	return "/Users/blake/Dropbox/me_photos/"
+	return os.path.abspath('.')
 
 def pull_manual_photos(local_photo_path):
 	with open(LAST_MANUAL_PHOTO_PATH, 'r+') as last_photo_file:

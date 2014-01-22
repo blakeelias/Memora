@@ -44,7 +44,7 @@ public class CameraTimerService extends Service {
 	private ConnectivityManager connectivityManager;
 	
 	private PendingIntent alarmPendingIntent;
-	private static final int SECONDS_PER_PICTURE = 20;
+	private static final int SECONDS_PER_PICTURE = 60;
 	
 	BroadcastReceiver networkStateReceiver = new BroadcastReceiver() {
 

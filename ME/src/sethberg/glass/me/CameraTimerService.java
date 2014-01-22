@@ -78,8 +78,6 @@ public class CameraTimerService extends Service {
     }
 	
 	private void setAlarm() {
-		Intent intent = new Intent(this, CameraTimerService.class).putExtra(JOB_EXTRA, TAKE_PICTURE);
-		alarmPendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // changed PendingIntent.FLAG_UPDATE_CURRENT from 0 per http://stackoverflow.com/a/20157735/1476167
 		am.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 1000 * SECONDS_PER_PICTURE, alarmPendingIntent); 
 	}
 
@@ -106,7 +104,10 @@ public class CameraTimerService extends Service {
         mPowerManager = (PowerManager) this.getSystemService(Context.POWER_SERVICE);
         mWakeLock = mPowerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "");
         
+        
         am = (AlarmManager)this.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(this, CameraTimerService.class).putExtra(JOB_EXTRA, TAKE_PICTURE);
+		alarmPendingIntent = PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT); // changed PendingIntent.FLAG_UPDATE_CURRENT from 0 per http://stackoverflow.com/a/20157735/1476167
         setAlarm();
 	}
 	

@@ -1,24 +1,16 @@
-<!doctype html>
 <html>
 	<head>
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8">
 		<title>Galleriffic | Thumbnail rollover effects and slideshow crossfades</title>
-		<link rel="stylesheet" href="galleriffic-2.0/css/basic.css" type="text/css" />
-		<link rel="stylesheet" href="galleriffic-2.0/css/galleriffic-2.css" type="text/css" />
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-		<script type="text/javascript" src="galleriffic-2.0/js/jquery.galleriffic.js"></script>
-		<script type="text/javascript" src="galleriffic-2.0/js/jquery.opacityrollover.js"></script>
+		<link rel="stylesheet" href="css/basic.css" type="text/css" />
+		<link rel="stylesheet" href="css/galleriffic-2.css" type="text/css" />
+		<script type="text/javascript" src="js/jquery-1.3.2.js"></script>
+		<script type="text/javascript" src="js/jquery.galleriffic.js"></script>
+		<script type="text/javascript" src="js/jquery.opacityrollover.js"></script>
 		<!-- We only want the thunbnails to display when javascript is disabled -->
 		<script type="text/javascript">
 			document.write('<style>.noscript { display: none; }</style>');
 		</script>
-
-		<style type="text/css">
-			#thumbs img {
-				width: 100px;
-				height: 100px;
-			}
-		</style>
 	</head>
 	<body>
 		<div id="page">
@@ -36,40 +28,6 @@
 					<div id="caption" class="caption-container"></div>
 				</div>
 				<div id="thumbs" class="navigation">
-					<ul class="thumbs noscript"></ul>
-				</div>
-
-
-				<script type="text/javascript">
-					var photos = [
-						'20140123_133737_249_v0.1.1_20140123_134219_421.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134239_452.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134259_466.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134319_683.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134339_509.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134359_535.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134420_191.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134439_372.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134459_543.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134520_331.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134539_435.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134559_609.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134619_661.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134639_901.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134659_690.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134719_536.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134739_502.jpg',
-						'20140123_133737_249_v0.1.1_20140123_134759_551.jpg',
-					];
-
-					for (i in photos) {
-						var filename = 'file:///Users/blake/Dropbox/me_photos/' + photos[i];
-						$('#thumbs ul').append('<li><a class="thumb" name="leaf" href="' + filename + '" title="Title #0"><img src="' + filename + '" alt="Title #0" /></a><div class="caption"><div class="download"><a href="' + filename + '">Download Original</a></div><div class="image-title">Title #0</div><div class="image-desc">Description</div></div></li>');
-					}
-				</script>
-
-
-				<!--div id="thumbs" class="navigation">
 					<ul class="thumbs noscript">
 						<li>
 							<a class="thumb" name="leaf" href="http://farm4.static.flickr.com/3261/2538183196_8baf9a8015.jpg" title="Title #0">
@@ -379,7 +337,7 @@
 							</div>
 						</li>
 					</ul>
-				</div-->
+				</div>
 				<div style="clear: both;"></div>
 			</div>
 		</div>
@@ -423,7 +381,7 @@
 					enableHistory:             false,
 					autoStart:                 false,
 					syncTransitions:           true,
-					defaultTransitionDuration: 0,
+					defaultTransitionDuration: 900,
 					onSlideChange:             function(prevIndex, nextIndex) {
 						// 'this' refers to the gallery, which is an extension of $('#thumbs')
 						this.find('ul.thumbs').children()

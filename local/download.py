@@ -1,5 +1,6 @@
 import os
 from subprocess import call, check_output
+from pprint import pprint
 
 #######################################################################################
 #############################  EDIT CONFIGURATION BELOW   #############################
@@ -30,43 +31,60 @@ ADB_PATH = "/Users/blake/Downloads/adt-bundle-mac-x86_64-20131030/sdk/platform-t
 #############################   DO NOT EDIT BELOW HERE   ##############################
 #######################################################################################
 
-REMOTE_PHOTO_PATH = "/mnt/sdcard/DCIM/me/photos/"
+AUTO_PHOTO_PATH = "/mnt/sdcard/DCIM/me/photos/"
 MANUAL_PHOTO_PATH = "/mnt/sdcard/DCIM/Camera/"
-LAST_MANUAL_PHOTO_PATH = "./last_manual_photo.txt"
 
 def main():
-	file_path = get_file_path()
-	pull_manual_photos(file_path)
-	pull_auto_photos(file_path)
+	local_file_path = get_local_file_path()
+	last_manual_photo_path = local_file_path + "last_manual_photo.txt"
+	pull_manual_photos(MANUAL_PHOTO_PATH, local_file_path, last_manual_photo_path)
+	pull_auto_photos(AUTO_PHOTO_PATH, local_file_path)
 
 def get_file_path():
 	return os.path.abspath('.')
 
-def pull_manual_photos(local_photo_path):
-	with open(LAST_MANUAL_PHOTO_PATH, 'r+') as last_photo_file:
-		last_photo_name = last_photo_file.readline()
+def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_path):
+	print('-'*30)
+	print('pull_manual_photos()')
+	print('-'*30)
+	try:
+		with open(last_manual_photo_path, 'r+') as last_photo_file:
+			last_photo_name = last_photo_file.readline()
+	except:
+		last_photo_name = ''
+	print('last_photo_name = %s' % last_photo_name)
 
-	manual_photos = check_output([ADB_PATH, "shell", "ls", MANUAL_PHOTO_PATH]).split('\n')
+	manual_photos = check_output([ADB_PATH, "shell", "ls", manual_photo_path]).split('\n')
+	print('manual_photos: ')
+	pprint(manual_photos)
+
 	for f in manual_photos:
 		f = f.split('\r')[0]
 		if f > last_photo_name:
 			print('copying ' + f)
-			copy_file_and_process(f)
+			copy_file_and_process(manual_photo_path, f, local_photo_path)
 			last_photo_name = f
 
-	with open(LAST_MANUAL_PHOTO_PATH, 'w') as last_photo_file:
+	print('last_photo_name = %s' % last_photo_name)
+	with open(last_manual_photo_path, 'w+') as last_photo_file:
 		last_photo_file.write(last_photo_name)
 
-def pull_auto_photos(local_photo_path):
-	auto_photos = check_output([ADB_PATH, "shell", "ls", REMOTE_PHOTO_PATH]).split('\n')
+def pull_auto_photos(auto_photo_path, local_photo_path):
+	print('-'*30)
+	print('pull_auto_photos()')
+	print('-'*30)
+	auto_photos = check_output([ADB_PATH, "shell", "ls", auto_photo_path]).split('\n')
+	print('auto_photos')
+	pprint(auto_photos)
 	for f in auto_photos:
 		f = f.split('\r')[0]
 		print('copying ' + f)
-		copy_file_and_process(f)
-		call([ADB_PATH, "shell", "rm", REMOTE_PHOTO_PATH + f])
+		copy_file_and_process(auto_photo_path, f, local_photo_path)
+		print('deleting ' + f)
+		call([ADB_PATH, "shell", "rm", auto_photo_path + f])
 
-def copy_file_and_process(f):
-	call([ADB_PATH, "pull", MANUAL_PHOTO_PATH + f, local_photo_path])
+def copy_file_and_process(remote_photo_path, f, local_photo_path):
+	call([ADB_PATH, "pull", remote_photo_path + f, local_photo_path])
 
 if __name__ == '__main__':
 	main()

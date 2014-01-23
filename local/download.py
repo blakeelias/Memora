@@ -40,7 +40,7 @@ def main():
 	pull_manual_photos(MANUAL_PHOTO_PATH, local_file_path, last_manual_photo_path)
 	pull_auto_photos(AUTO_PHOTO_PATH, local_file_path)
 
-def get_file_path():
+def get_local_file_path():
 	return os.path.abspath('.')
 
 def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_path):

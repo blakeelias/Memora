@@ -41,12 +41,13 @@ def main():
 	pull_auto_photos(AUTO_PHOTO_PATH, local_file_path)
 
 def get_local_file_path():
-	return os.path.abspath('.')
+	return os.path.abspath('.') + '/'
 
 def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_path):
 	print('-'*30)
 	print('pull_manual_photos()')
 	print('-'*30)
+	print('last_manual_photo_path = %s' % last_manual_photo_path)
 	try:
 		with open(last_manual_photo_path, 'r+') as last_photo_file:
 			last_photo_name = last_photo_file.readline()

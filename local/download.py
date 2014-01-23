@@ -51,7 +51,7 @@ def pull_manual_photos(local_photo_path):
 		f = f.split('\r')[0]
 		if f > last_photo_name:
 			print('copying ' + f)
-			call([ADB_PATH, "pull", MANUAL_PHOTO_PATH + f, local_photo_path])
+			copy_file_and_process(f)
 			last_photo_name = f
 
 	with open(LAST_MANUAL_PHOTO_PATH, 'w') as last_photo_file:
@@ -62,8 +62,11 @@ def pull_auto_photos(local_photo_path):
 	for f in auto_photos:
 		f = f.split('\r')[0]
 		print('copying ' + f)
-		call([ADB_PATH, "pull", REMOTE_PHOTO_PATH + f, local_photo_path])
+		copy_file_and_process(f)
 		call([ADB_PATH, "shell", "rm", REMOTE_PHOTO_PATH + f])
+
+def copy_file_and_process(f):
+	call([ADB_PATH, "pull", MANUAL_PHOTO_PATH + f, local_photo_path])
 
 if __name__ == '__main__':
 	main()

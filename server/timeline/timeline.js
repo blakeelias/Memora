@@ -10,6 +10,12 @@ if (Meteor.isClient) {
       // template data, if any, is available in 'this'
       if (typeof console !== 'undefined')
         console.log("You pressed the button");
+
+      Template.hello.greeting = function () {
+        return Photos.find().map(function (doc, index, cursor) {
+          return 
+        });
+      }
     }
   });
 }

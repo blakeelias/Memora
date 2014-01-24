@@ -1,0 +1,14 @@
+#slider_body{
+	width: 80%;
+	height: 15px;
+	background-color: #58FAF4;
+}
+
+#slider_knob{
+	position: relative;
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+	background-color: red;
+	vertical-align: middle;
+}

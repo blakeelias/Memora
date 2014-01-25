@@ -1,43 +1,5 @@
 Photos = new Meteor.Collection("photos")
 
-if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "Welcome to timeline.";
-  };
-
-  Template.hello.events({
-    'click input' : function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
-
-      Template.hello.greeting = function () {
-        return Photos.find().map(function (doc, index, cursor) {
-          return 
-        });
-      }
-    }
-  });
-}
-
-if (Meteor.isServer) {
-  Meteor.startup(function () {
-    var baseURL = '/photos/';
-    var filenames = [
-      '20140122_143251_742_v0.1.1_20140122_143354_247.jpg',
-      '20140122_143251_742_v0.1.1_20140122_143453_561.jpg',
-      '20140122_143251_742_v0.1.1_20140122_143553_643.jpg',
-      '20140122_143251_742_v0.1.1_20140122_143653_669.jpg',
-    ];
-    for (i in filenames) {
-      Photos.insert({
-        'time_millis': filenameToTimestamp(filenames[i]),
-        'url': baseURL + filenames[i]
-      });
-    }
-  });
-}
-
 function filenameToTimestamp(filename) {
   var tokens = filename.split('\.jpg')[0].split('_');
 
@@ -55,3 +17,52 @@ function filenameToTimestamp(filename) {
 
   return new Date(year, month, day, hours, minutes, seconds, millis);
 }
+
+function getFilesInPublicFolder(folder) {
+  /**
+   * Return list of filenames that are contained in '<app>/public/<folder>/', where <folder>
+   * is the value of the folder argument passed to this function.
+   *
+   * Only to be run on server, not client.
+   */
+  var fs = Npm.require('fs');
+  return fs.readdirSync('/Users/blake/Dropbox/me/server/timeline/public/' + folder + '/');
+}
+
+if (Meteor.isClient) {
+  Template.hello.greeting = function () {
+    return "Welcome to timeline.";
+  };
+
+  Template.hello.events({
+    'click input' : function () {
+      // template data, if any, is available in 'this'
+      if (typeof console !== 'undefined')
+        console.log("You pressed the button");
+    }
+  });
+}
+
+if (Meteor.isServer) {
+  Meteor.startup(function () {
+    var baseURL = 'photos';
+    var filenames = getFilesInPublicFolder(baseURL).filter(function(filename) {
+      return filename.indexOf('.jpg') > 0;
+    });
+    //console.log('filenames: ' + filenames);
+    for (i in filenames) {
+      console.log('name: ' + filenames[i]);
+    }
+
+    for (i in filenames) {
+      Photos.update(
+        {
+          'time_millis': filenameToTimestamp(filenames[i]),
+          'url': baseURL + '/' + filenames[i]
+        },
+        { $set : {}},
+        {upsert: true});
+    }
+  });
+}
+

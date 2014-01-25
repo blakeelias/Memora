@@ -1,19 +1,27 @@
-<head>
-  <link rel="stylesheet" type="text/css" href="slider.css">
-  <title>timeline</title>
+<head>  
+   <link rel="stylesheet" type="text/css" href="slider.css">
+   <title>timeline</title>
 </head>
 
 <body>
-  {{> hello}}
+   {{> hello}}
 </body>
 
 <template name="hello">
-  <div id="slider_body">
-	<div id="slider_knob">
-	</div>
-  </div>
-	
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-  <script type='text/javascript' src='slider.js'></script>
+   <div id="slider_body">
+      <div id="slider_knob">
+	   </div>
+   </div>
+
+   <div id="previous_pictures">
+   </div>
+   <div id="current_picture">
+      <img src="/last_night/20140111_225728_101_686cff9_20140112_000029_807.jpg", width = 2528px, height = 1856px>
+   </div>
+   <div id="future_pictures">
+   </div>
+
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+   <script type='text/javascript' src='slider.js'></script>
 </template>

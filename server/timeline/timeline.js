@@ -26,7 +26,7 @@ function getFilesInPublicFolder(folder) {
    * Only to be run on server, not client.
    */
   var fs = Npm.require('fs');
-  return fs.readdirSync('/Users/blake/Dropbox/me/server/timeline/public/' + folder + '/');
+  return fs.readdirSync('../../../../../public/' + folder + '/');
 }
 
 if (Meteor.isClient) {
@@ -49,10 +49,6 @@ if (Meteor.isServer) {
     var filenames = getFilesInPublicFolder(baseURL).filter(function(filename) {
       return filename.indexOf('.jpg') > 0;
     });
-    //console.log('filenames: ' + filenames);
-    for (i in filenames) {
-      console.log('name: ' + filenames[i]);
-    }
 
     for (i in filenames) {
       Photos.update(

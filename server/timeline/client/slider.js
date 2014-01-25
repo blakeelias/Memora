@@ -118,8 +118,6 @@ if (Meteor.isClient) {
 			knob.offset({ left: newPos});
 		});
 
-
-
 	});
 
 	function updatePix(pos)

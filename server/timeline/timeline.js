@@ -8,7 +8,7 @@ function filenameToTimestamp(filename) {
   var millis = tokens[tokens.length - 1];
 
   var year = yearMonthDay.substring(0, 4);
-  var month = yearMonthDay.substring(4, 6);
+  var month = parseInt(yearMonthDay.substring(4, 6)) - 1;
   var day = yearMonthDay.substring(6, 8);
 
   var hours = hourMinuteSecond.substring(0, 2);

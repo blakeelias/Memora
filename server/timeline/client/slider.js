@@ -141,32 +141,47 @@ if (Meteor.isClient) {
         var before = Photos.find({time_millis: {$lte: date}}, {limit: nBefore + 1, sort: {time_millis: -1}}).fetch();
         var after = Photos.find({time_millis: {$gte: date}}, {limit: nAfter + 1, sort: {time_millis: 1}}).fetch();
 
-        var justBefore = before[0];
-        var justAfter = after[0];
-
         var thisPhoto, beforePhotos, afterPhotos;
 
-        if (justBefore == justAfter) {
-            thisPhoto = justBefore;
-            beforePhotos = before.slice(1).reverse();
+        if (before.length == 0 && after.length == 0) {
+            thisPhoto = {};
+            beforePhotos = before;
+            afterPhotos = after;
+        }
+        else if (before.length == 0) {
+            thisPhoto = after[0];
+            beforePhotos = before;
             afterPhotos = after.slice(1);
         }
+        else if (after.length == 0) {
+            thisPhoto = before[0];
+            beforePhotos = before.slice(1).reverse();
+            afterPhotos = after;
+        }
         else {
-            var timeBefore = date - justBefore['time_millis'];
-            var timeAfter = justAfter['time_millis'] - date;
-
-            if (timeBefore < timeAfter) { // jump thisPhoto to justBefore
+            var justBefore = before[0];
+            var justAfter = after[0];
+            if (justBefore == justAfter) {
                 thisPhoto = justBefore;
                 beforePhotos = before.slice(1).reverse();
-                afterPhotos = after.slice(0, Math.min(after.length, nAfter));
-            }
-            else { // timeAfter <= timeBefore; jump thisPhoto to justAfter
-                thisPhoto = justAfter;
-                beforePhotos = before.slice(0, Math.min(before.length, nBefore)).reverse();
                 afterPhotos = after.slice(1);
             }
-        }
+            else {
+                var timeBefore = date - justBefore['time_millis'];
+                var timeAfter = justAfter['time_millis'] - date;
 
+                if (timeBefore < timeAfter) { // jump thisPhoto to justBefore
+                    thisPhoto = justBefore;
+                    beforePhotos = before.slice(1).reverse();
+                    afterPhotos = after.slice(0, Math.min(after.length, nAfter));
+                }
+                else { // timeAfter <= timeBefore; jump thisPhoto to justAfter
+                    thisPhoto = justAfter;
+                    beforePhotos = before.slice(0, Math.min(before.length, nBefore)).reverse();
+                    afterPhotos = after.slice(1);
+                }
+            }
+        }
         return [thisPhoto, beforePhotos, afterPhotos];
     }
 }

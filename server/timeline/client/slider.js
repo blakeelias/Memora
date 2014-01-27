@@ -133,3 +133,16 @@ if (Meteor.isClient) {
 		}
 	}
 }
+
+function photosNearDate(date, nBefore, nAfter) {
+  /**
+   * Returns a list 
+   * [thisPhoto, beforePhotos, afterPhotos]
+   *     thisPhoto: {url: <url>, time_millis: <date>}
+   *     beforePhotos: list of up to nBefore photos that have time_millis earlier than that of thisPhoto, 
+   *     afterPhotos: list of up to nAfter photos that have time_millis after that of thisPhoto
+   */
+
+   var before = Photos.find({time_millis: {$lte: date}}).limit(nBefore).fetch();
+   var after = Photos.find({time_millis: {$gte: date}}).limit(nAfter).fetch();
+}

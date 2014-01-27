@@ -38,8 +38,6 @@ if (Meteor.isClient) {
 		var knobLeft = 0;
 		var position = 0;
 
-		setThumbs();
-
 		knob.draggable(
 		{
 			containment: "parent",	
@@ -113,26 +111,29 @@ if (Meteor.isClient) {
 		knob.offset({ left: pos});
 	}
 	//Doesn't work yet and not using this
-	function setThumbs(picIndex)
+	function setThumbs(thumbList, beforeOrAfterID, numSpaces)
 	{
-		var length = 1234;
-		var previousPix = Math.min(8, picIndex - 8);
-		var futurePix = Math.min(8, length - picIndex);
-		for(var i = picIndex - previousPix; i < 8 + previousPix; i++)
+		//for(var i = numSpaces - thumbList.length; i < numSpaces; i++)
+        for (var i = 0; i < thumbList.length; i++)
 		{
-			$("#previous_pictures " + String(i)).attr("src", "photos/" + past[i]);
+			$("#" + beforeOrAfterID + " #" + String(i + numSpaces - thumbList.length)).attr("src", thumbList[i]['url']);
 		}
-
-		for(var i = picIndex - previousPix; i < 8 + previousPix; i++)
-		{
-			$("#previous_pictures " + String(i)).attr("src", "photos/" + past[i]);
-		}
+        for(var i = 0; i < numSpaces - thumbList.length; i++)
+        {
+            $("#" + beforeOrAfterID + " #" + String(i)).attr("src", "/spacer.gif");
+        }
 	}
 
 	function updatePix(photoList)
 	{
 		snapFromTime(photoList[0]["time_millis"]);
 		$("#current_picture img").attr("src", photoList[0]["url"]);
+
+        var beforePhotos = photoList[1];
+        var afterPhotos = photoList[2];
+
+        setThumbs(beforePhotos, "previous_pictures", 8);
+        setThumbs(afterPhotos, "future_pictures", 8);
 	}
 
     function photosNearDate(date, nBefore, nAfter) {

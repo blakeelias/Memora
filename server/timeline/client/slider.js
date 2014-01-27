@@ -54,8 +54,7 @@ if (Meteor.isClient) {
 			},
 			stop: function()
 			{
-				var str = timeFromPos(position).toUTCString();
-				$("#current_picture img").attr("alt", str);
+				 photosNearDate(timeFromPos(position),8,8);
 			}
 		});
 
@@ -65,7 +64,7 @@ if (Meteor.isClient) {
 		});
 
 		$(window).resize(function(){
-			setKnobPos(slider.offset().left +  Math.round(slider.width()*position));
+			var stuff = setKnobPos(slider.offset().left +  Math.round(slider.width()*position));
 		});
 	});
 
@@ -127,6 +126,12 @@ if (Meteor.isClient) {
 		{
 			$("#previous_pictures " + String(i)).attr("src", "photos/" + past[i]);
 		}
+	}
+
+	function updatePix(photoList)
+	{
+		snapFromTime(photoList[0]["time_millis"]);
+		$("current_picture img").attr("src", photoList[0]["url"]);
 	}
 
     function photosNearDate(date, nBefore, nAfter) {

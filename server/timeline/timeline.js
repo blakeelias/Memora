@@ -45,7 +45,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
     Meteor.startup(function () {
-    var baseURL = 'photos';
+    var baseURL = '/photos';
     var filenames = getFilesInPublicFolder(baseURL).filter(function(filename) {
         return filename.indexOf('.jpg') > 0;
     });

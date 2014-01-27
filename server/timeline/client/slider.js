@@ -23,10 +23,10 @@ future = [
 
 if (Meteor.isClient) {
 
-	var picw = 2528;
-	var pich = 1856;
-	var scale = 8;
-	var current_picture;
+    var picw = 2528;
+    var pich = 1856;
+    var scale = 8;
+    var current_picture;
 
 	$(document).ready(function()
 	{
@@ -128,4 +128,45 @@ if (Meteor.isClient) {
 			$("#previous_pictures " + String(i)).attr("src", "photos/" + past[i]);
 		}
 	}
+
+    function photosNearDate(date, nBefore, nAfter) {
+        /**
+         * Returns a list 
+         * [thisPhoto, beforePhotos, afterPhotos]
+         *     thisPhoto: {url: <url>, time_millis: <date>}   --   the photo whose time_millis is closest to the argument "date"
+         *     beforePhotos: list of the (up to) nBefore nearest photos to thisPhoto on the timeline that come before it
+         *     afterPhotos: list of the (up to) nAfter nearest photos to thisPhoto on the timeline that come after it
+         */
+
+        var before = Photos.find({time_millis: {$lte: date}}, {limit: nBefore + 1, sort: {time_millis: -1}}).fetch();
+        var after = Photos.find({time_millis: {$gte: date}}, {limit: nAfter + 1, sort: {time_millis: 1}}).fetch();
+
+        var justBefore = before[0];
+        var justAfter = after[0];
+
+        var thisPhoto, beforePhotos, afterPhotos;
+
+        if (justBefore == justAfter) {
+            thisPhoto = justBefore;
+            beforePhotos = before.slice(1).reverse();
+            afterPhotos = after.slice(1);
+        }
+        else {
+            var timeBefore = date - justBefore['time_millis'];
+            var timeAfter = justAfter['time_millis'] - date;
+
+            if (timeBefore < timeAfter) { // jump thisPhoto to justBefore
+                thisPhoto = justBefore;
+                beforePhotos = before.slice(1).reverse();
+                afterPhotos = after.slice(0, Math.min(after.length, nAfter));
+            }
+            else { // timeAfter <= timeBefore; jump thisPhoto to justAfter
+                thisPhoto = justAfter;
+                beforePhotos = before.slice(0, Math.min(before.length, nBefore)).reverse();
+                afterPhotos = after.slice(1);
+            }
+        }
+
+        return [thisPhoto, beforePhotos, afterPhotos];
+    }
 }

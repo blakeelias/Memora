@@ -81,58 +81,57 @@ files = [
 
 if (Meteor.isClient) {
 
-	var picw = 2528;
-	var pich = 1856;
-	var scale = 8;
-	var current_picture;
+    var picw = 2528;
+    var pich = 1856;
+    var scale = 8;
+    var current_picture;
 
-	$(document).ready(function()
-	{
-		var knob = $( "#slider_knob" );
-		var slider = $( "#slider_body" );
-		
-		var sliderLeft = 0;
-		var knobLeft = 0;
-		var position = 0;
-		knob.draggable(
-		{
-			containment: "parent",	
-			axis: "x",
-			drag: function() 
-			{
-	        	sliderLeft = slider.offset().left;
-				knobLeft = knob.offset().left;
-				knobRel = knobLeft - sliderLeft;
-				position = knobRel / (slider.width() - knob.width()/2);
-				updatePix(position);
-				/*$(this).text(String(position));*/
-			},
-			stop: function()
-			{
+    $(document).ready(function()
+    {
+        var knob = $( "#slider_knob" );
+        var slider = $( "#slider_body" );
+        
+        var sliderLeft = 0;
+        var knobLeft = 0;
+        var position = 0;
+        knob.draggable(
+        {
+            containment: "parent",  
+            axis: "x",
+            drag: function() 
+            {
+                sliderLeft = slider.offset().left;
+                knobLeft = knob.offset().left;
+                knobRel = knobLeft - sliderLeft;
+                position = knobRel / (slider.width() - knob.width()/2);
+                updatePix(position);
+                /*$(this).text(String(position));*/
+            },
+            stop: function()
+            {
 
-			}
-		});
+            }
+        });
 
-		$(window).resize(function(){
-			var newPos = slider.offset().left + slider.width()*position;
-			knob.offset({ left: newPos});
-		});
+        $(window).resize(function(){
+            var newPos = slider.offset().left + slider.width()*position;
+            knob.offset({ left: newPos});
+        });
 
-	});
+    });
 
-	function updatePix(pos)
-	{
-		picIndex = Math.round(files.length * pos);
-		var pic = $("#current_picture img");
-		if(files[picIndex] != current_picture)
-		{
-			current_picture = files[picIndex]
-			pic.attr("src", "/last_night/"  + current_picture);
-			pic.attr("height", pich/scale);
-			pic.attr("width", picw/scale);
-		}
-	}
-}
+    function updatePix(pos)
+    {
+        picIndex = Math.round(files.length * pos);
+        var pic = $("#current_picture img");
+        if(files[picIndex] != current_picture)
+        {
+            current_picture = files[picIndex]
+            pic.attr("src", "/last_night/"  + current_picture);
+            pic.attr("height", pich/scale);
+            pic.attr("width", picw/scale);
+        }
+    }
 
     function photosNearDate(date, nBefore, nAfter) {
         /**

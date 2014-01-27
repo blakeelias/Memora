@@ -54,7 +54,7 @@ if (Meteor.isClient) {
 			},
 			stop: function()
 			{
-				photosNearDate(timeFromPos(position),8,8);
+				updatePix(photosNearDate(timeFromPos(position),8,8));
 			}
 		});
 

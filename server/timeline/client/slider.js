@@ -138,9 +138,9 @@ if (Meteor.isClient) {
         /**
          * Returns a list 
          * [thisPhoto, beforePhotos, afterPhotos]
-         *     thisPhoto: {url: <url>, time_millis: <date>}
-         *     beforePhotos: list of up to nBefore photos that have time_millis earlier than that of thisPhoto, 
-         *     afterPhotos: list of up to nAfter photos that have time_millis after that of thisPhoto
+         *     thisPhoto: {url: <url>, time_millis: <date>}   --   the photo whose time_millis is closest to the argument "date"
+         *     beforePhotos: list of the (up to) nBefore nearest photos to thisPhoto on the timeline that come before it
+         *     afterPhotos: list of the (up to) nAfter nearest photos to thisPhoto on the timeline that come after it
          */
 
         var before = Photos.find({time_millis: {$lte: date}}, {limit: nBefore + 1, sort: {time_millis: -1}}).fetch();

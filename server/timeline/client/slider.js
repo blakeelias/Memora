@@ -50,11 +50,11 @@ if (Meteor.isClient) {
 				knobLeft = knob.offset().left;
 				knobRel = knobLeft - sliderLeft;
 				position = knobRel / (slider.width() - knob.width()/2);
-				updatePix(position);
+				//updatePix(position);
 			},
 			stop: function()
 			{
-				 photosNearDate(timeFromPos(position),8,8);
+				photosNearDate(timeFromPos(position),8,8);
 			}
 		});
 
@@ -71,11 +71,12 @@ if (Meteor.isClient) {
 	function timeFromPos(pos)
 	{
 		var d = new Date();
-		d.setTime(pos*24*60*60*1000);
+		d.setTime(pos*24*60*60*1000 + d.getTimezoneOffset()*60*1000);
 		//This is hardcoded to Jan 22, 2014 for testing purposes.
 		d.setFullYear(2014);
 		d.setMonth(0);
 		d.setDate(22);
+		console.log(d.toString());
 		return d;
 	}
 
@@ -106,10 +107,10 @@ if (Meteor.isClient) {
 		var slider = $( "#slider_body" );
 		var msecs = (((date.getHours()*60) + date.getMinutes())*60 + date.getSeconds())*1000 + date.getMilliseconds(); 
 		var pos = msecs/(60*60*24*1000);
-		var a = slider.offset().left;
-		var w = slider.width();
-		var newPos = a + pos*w + knob.width()/2;
-		knob.offset({ left: newPos});
+		//var a = slider.offset().left;
+		//var w = slider.width();
+		//var newPos = a + pos*w + knob.width()/2;
+		knob.offset({ left: pos});
 	}
 	//Doesn't work yet and not using this
 	function setThumbs(picIndex)

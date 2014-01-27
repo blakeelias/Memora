@@ -1,26 +1,3 @@
-past = [
-"20140111_183239_637_9d51ecd_20140111_183321_424.jpg",
-"20140111_183239_637_9d51ecd_20140111_183340_923.jpg",
-"20140111_183239_637_9d51ecd_20140111_183400_922.jpg",
-"20140111_183239_637_9d51ecd_20140111_183420_884.jpg",
-"20140111_183239_637_9d51ecd_20140111_183500_976.jpg",
-"20140111_183239_637_9d51ecd_20140111_183520_894.jpg",
-"20140111_183239_637_9d51ecd_20140111_183540_934.jpg",
-"20140111_183239_637_9d51ecd_20140111_183600_971.jpg",
-"20140111_183239_637_9d51ecd_20140111_183620_905.jpg",
-"20140111_183239_637_9d51ecd_20140111_183641_022.jpg"]
-future = [
-"20140111_183239_637_9d51ecd_20140111_183700_894.jpg",
-"20140111_183239_637_9d51ecd_20140111_183740_982.jpg",
-"20140111_183239_637_9d51ecd_20140111_183800_943.jpg",
-"20140111_183239_637_9d51ecd_20140111_183820_882.jpg",
-"20140111_183239_637_9d51ecd_20140111_183841_056.jpg",
-"20140111_183239_637_9d51ecd_20140111_183900_924.jpg",
-"20140111_183239_637_9d51ecd_20140111_183920_876.jpg",
-"20140111_183239_637_9d51ecd_20140111_183941_061.jpg",
-"20140111_183239_637_9d51ecd_20140111_184001_486.jpg",
-"20140111_183239_637_9d51ecd_20140111_184020_864.jpg"]
-
 if (Meteor.isClient) {
 
     var picw = 2528;
@@ -95,7 +72,8 @@ if (Meteor.isClient) {
 		else
 		{
 			var posn = Math.max(0, Math.min(pos, 1));
-			newPos = slider.offset().left; + posn*slider.width() + knob.width()/2;
+			newPos = slider.offset().left + Math.round(posn*slider.width()) + knob.width()/2;
+			console.log(newPos);
 		}
 		
 		knob.offset({ left: newPos });
@@ -107,11 +85,10 @@ if (Meteor.isClient) {
 		var slider = $( "#slider_body" );
 		var msecs = (((date.getHours()*60) + date.getMinutes())*60 + date.getSeconds())*1000 + date.getMilliseconds(); 
 		var pos = msecs/(60*60*24*1000);
-		//var a = slider.offset().left;
-		//var w = slider.width();
-		//var newPos = a + pos*w + knob.width()/2;
-		knob.offset({ left: pos});
+		console.log(pos);
+		setKnobPos(pos);
 	}
+
 	//Doesn't work yet and not using this
 	function setThumbs(picIndex)
 	{

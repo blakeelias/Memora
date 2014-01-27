@@ -132,7 +132,7 @@ if (Meteor.isClient) {
 	function updatePix(photoList)
 	{
 		snapFromTime(photoList[0]["time_millis"]);
-		$("current_picture img").attr("src", photoList[0]["url"]);
+		$("#current_picture img").attr("src", photoList[0]["url"]);
 	}
 
     function photosNearDate(date, nBefore, nAfter) {

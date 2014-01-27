@@ -1,4 +1,4 @@
-files = [
+past = [
 "20140111_183239_637_9d51ecd_20140111_183321_424.jpg",
 "20140111_183239_637_9d51ecd_20140111_183340_923.jpg",
 "20140111_183239_637_9d51ecd_20140111_183400_922.jpg",
@@ -8,7 +8,8 @@ files = [
 "20140111_183239_637_9d51ecd_20140111_183540_934.jpg",
 "20140111_183239_637_9d51ecd_20140111_183600_971.jpg",
 "20140111_183239_637_9d51ecd_20140111_183620_905.jpg",
-"20140111_183239_637_9d51ecd_20140111_183641_022.jpg",
+"20140111_183239_637_9d51ecd_20140111_183641_022.jpg"]
+future = [
 "20140111_183239_637_9d51ecd_20140111_183700_894.jpg",
 "20140111_183239_637_9d51ecd_20140111_183740_982.jpg",
 "20140111_183239_637_9d51ecd_20140111_183800_943.jpg",
@@ -18,66 +19,7 @@ files = [
 "20140111_183239_637_9d51ecd_20140111_183920_876.jpg",
 "20140111_183239_637_9d51ecd_20140111_183941_061.jpg",
 "20140111_183239_637_9d51ecd_20140111_184001_486.jpg",
-"20140111_183239_637_9d51ecd_20140111_184020_864.jpg",
-"20140111_183239_637_9d51ecd_20140111_184040_847.jpg",
-"20140111_183239_637_9d51ecd_20140111_184100_914.jpg",
-"20140111_183239_637_9d51ecd_20140111_184121_039.jpg",
-"20140111_183239_637_9d51ecd_20140111_184141_265.jpg",
-"20140111_183239_637_9d51ecd_20140111_184201_407.jpg",
-"20140111_183239_637_9d51ecd_20140111_184221_142.jpg",
-"20140111_183239_637_9d51ecd_20140111_184241_292.jpg",
-"20140111_183239_637_9d51ecd_20140111_184301_514.jpg",
-"20140111_183239_637_9d51ecd_20140111_184322_047.jpg",
-"20140111_183239_637_9d51ecd_20140111_184341_056.jpg",
-"20140111_183239_637_9d51ecd_20140111_184401_173.jpg",
-"20140111_183239_637_9d51ecd_20140111_184421_282.jpg",
-"20140111_183239_637_9d51ecd_20140111_184441_283.jpg",
-"20140111_183239_637_9d51ecd_20140111_184521_102.jpg",
-"20140111_183239_637_9d51ecd_20140111_184541_114.jpg",
-"20140111_183239_637_9d51ecd_20140111_184621_085.jpg",
-"20140111_183239_637_9d51ecd_20140111_184641_273.jpg",
-"20140111_183239_637_9d51ecd_20140111_184701_370.jpg",
-"20140111_183239_637_9d51ecd_20140111_184720_871.jpg",
-"20140111_183239_637_9d51ecd_20140111_184740_785.jpg",
-"20140111_183239_637_9d51ecd_20140111_184801_745.jpg",
-"20140111_183239_637_9d51ecd_20140111_184820_970.jpg",
-"20140111_183239_637_9d51ecd_20140111_184840_872.jpg",
-"20140111_183239_637_9d51ecd_20140111_184901_109.jpg",
-"20140111_183239_637_9d51ecd_20140111_184921_255.jpg",
-"20140111_183239_637_9d51ecd_20140111_184940_930.jpg",
-"20140111_183239_637_9d51ecd_20140111_185002_059.jpg",
-"20140111_183239_637_9d51ecd_20140111_185020_883.jpg",
-"20140111_183239_637_9d51ecd_20140111_185040_907.jpg",
-"20140111_183239_637_9d51ecd_20140111_185101_064.jpg",
-"20140111_183239_637_9d51ecd_20140111_185120_926.jpg",
-"20140111_183239_637_9d51ecd_20140111_185141_069.jpg",
-"20140111_183239_637_9d51ecd_20140111_185201_077.jpg",
-"20140111_183239_637_9d51ecd_20140111_185221_052.jpg",
-"20140111_183239_637_9d51ecd_20140111_185240_919.jpg",
-"20140111_183239_637_9d51ecd_20140111_185301_308.jpg",
-"20140111_183239_637_9d51ecd_20140111_185321_127.jpg",
-"20140111_183239_637_9d51ecd_20140111_185341_154.jpg",
-"20140111_183239_637_9d51ecd_20140111_185401_308.jpg",
-"20140111_183239_637_9d51ecd_20140111_185421_229.jpg",
-"20140111_183239_637_9d51ecd_20140111_185441_230.jpg",
-"20140111_183239_637_9d51ecd_20140111_185501_294.jpg",
-"20140111_183239_637_9d51ecd_20140111_185521_205.jpg",
-"20140111_183239_637_9d51ecd_20140111_185541_284.jpg",
-'20140111_183239_637_9d51ecd_20140111_185601_369.jpg',
-'20140111_183239_637_9d51ecd_20140111_185621_272.jpg',
-'20140111_183239_637_9d51ecd_20140111_185641_398.jpg',
-'20140111_183239_637_9d51ecd_20140111_185701_111.jpg',
-'20140111_183239_637_9d51ecd_20140111_185721_281.jpg',
-'20140111_183239_637_9d51ecd_20140111_185741_269.jpg',
-'20140111_183239_637_9d51ecd_20140111_185801_253.jpg',
-'20140111_183239_637_9d51ecd_20140111_185821_203.jpg',
-'20140111_183239_637_9d51ecd_20140111_185841_139.jpg',
-'20140111_183239_637_9d51ecd_20140111_185901_158.jpg',
-'20140111_183239_637_9d51ecd_20140111_185921_243.jpg',
-'20140111_183239_637_9d51ecd_20140111_185941_088.jpg',
-'20140111_183239_637_9d51ecd_20140111_190001_030.jpg',
-'20140111_183239_637_9d51ecd_20140111_190021_260.jpg',
-'20140111_183239_637_9d51ecd_20140111_190041_307.jpg']
+"20140111_183239_637_9d51ecd_20140111_184020_864.jpg"]
 
 if (Meteor.isClient) {
 
@@ -86,52 +28,106 @@ if (Meteor.isClient) {
     var scale = 8;
     var current_picture;
 
-    $(document).ready(function()
-    {
-        var knob = $( "#slider_knob" );
-        var slider = $( "#slider_body" );
-        
-        var sliderLeft = 0;
-        var knobLeft = 0;
-        var position = 0;
-        knob.draggable(
-        {
-            containment: "parent",  
-            axis: "x",
-            drag: function() 
-            {
-                sliderLeft = slider.offset().left;
-                knobLeft = knob.offset().left;
-                knobRel = knobLeft - sliderLeft;
-                position = knobRel / (slider.width() - knob.width()/2);
-                updatePix(position);
-                /*$(this).text(String(position));*/
-            },
-            stop: function()
-            {
+	$(document).ready(function()
+	{
+		
+		var knob = $( "#slider_knob" );
+		var slider = $( "#slider_body" );
+		
+		var sliderLeft = 0;
+		var knobLeft = 0;
+		var position = 0;
 
-            }
-        });
+		setThumbs();
 
-        $(window).resize(function(){
-            var newPos = slider.offset().left + slider.width()*position;
-            knob.offset({ left: newPos});
-        });
+		knob.draggable(
+		{
+			containment: "parent",	
+			axis: "x",
+			drag: function() 
+			{
+	        	sliderLeft = slider.offset().left;
+				knobLeft = knob.offset().left;
+				knobRel = knobLeft - sliderLeft;
+				position = knobRel / (slider.width() - knob.width()/2);
+				updatePix(position);
+			},
+			stop: function()
+			{
+				var str = timeFromPos(position).toUTCString();
+				$("#current_picture img").attr("alt", str);
+			}
+		});
 
-    });
+		$("#slider_body").click(function(event)
+		{
+			setKnobPos(event.pageX);
+		});
 
-    function updatePix(pos)
-    {
-        picIndex = Math.round(files.length * pos);
-        var pic = $("#current_picture img");
-        if(files[picIndex] != current_picture)
-        {
-            current_picture = files[picIndex]
-            pic.attr("src", "/last_night/"  + current_picture);
-            pic.attr("height", pich/scale);
-            pic.attr("width", picw/scale);
-        }
-    }
+		$(window).resize(function(){
+			setKnobPos(slider.offset().left +  Math.round(slider.width()*position));
+		});
+	});
+
+	function timeFromPos(pos)
+	{
+		var d = new Date();
+		d.setTime(pos*24*60*60*1000);
+		//This is hardcoded to Jan 22, 2014 for testing purposes.
+		d.setFullYear(2014);
+		d.setMonth(0);
+		d.setDate(22);
+		return d;
+	}
+
+	function setKnobPos(pos)
+	{
+		var slider = $("#slider_body");
+		var knob = $("#slider_knob");
+		var newPos = 2;
+		
+		if(pos % 1 === 0) 
+		{
+			var maxPos = slider.width() + slider.offset().left - knob.width();
+			var minPos = slider.offset().left;
+			newPos = Math.max(minPos, Math.min(maxPos, pos - knob.width()/2));
+		}
+		else
+		{
+			var posn = Math.max(0, Math.min(pos, 1));
+			newPos = slider.offset().left; + posn*slider.width() + knob.width()/2;
+		}
+		
+		knob.offset({ left: newPos });
+	}
+
+	function snapFromTime(date)
+	{
+		var knob = $( "#slider_knob" );
+		var slider = $( "#slider_body" );
+		var msecs = (((date.getHours()*60) + date.getMinutes())*60 + date.getSeconds())*1000 + date.getMilliseconds(); 
+		var pos = msecs/(60*60*24*1000);
+		var a = slider.offset().left;
+		var w = slider.width();
+		var newPos = a + pos*w + knob.width()/2;
+		knob.offset({ left: newPos});
+	}
+	//Doesn't work yet and not using this
+	function setThumbs(picIndex)
+	{
+		var length = 1234;
+		var previousPix = Math.min(8, picIndex - 8);
+		var futurePix = Math.min(8, length - picIndex);
+		for(var i = picIndex - previousPix; i < 8 + previousPix; i++)
+		{
+			$("#previous_pictures " + String(i)).attr("src", "photos/" + past[i]);
+		}
+
+		for(var i = picIndex - previousPix; i < 8 + previousPix; i++)
+		{
+			$("#previous_pictures " + String(i)).attr("src", "photos/" + past[i]);
+		}
+	}
 
     function photosNearDate(date, nBefore, nAfter) {
         /**

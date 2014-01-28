@@ -32,12 +32,13 @@ if (Meteor.isClient) {
 		});
 
 		$(window).resize(function(){
-			var stuff = setKnobPos(slider.offset().left +  Math.round(slider.width()*getKnobPos()));
+			setKnobPos(slider.offset().left +  Math.round(slider.width()*knobPosition));
 		});
 	});
 
     function updatePhotosFromSlider() {
-        updatePix(photosNearDate(timeFromPos(getKnobPos()),8,8));
+        knobPosition = getKnobPos();
+        updatePix(photosNearDate(timeFromPos(knobPosition),8,8));
     }
 
 	function timeFromPos(pos)

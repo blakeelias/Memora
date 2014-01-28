@@ -90,13 +90,13 @@ if (Meteor.isClient) {
 		setKnobPos(pos);
 	}
 
-	function setThumbs(thumbList, beforeOrAfterID, numSpaces)
+	function setThumbs(thumbList, beforeOrAfterID, numSlots)
 	{
         for (var i = 0; i < thumbList.length; i++)
 		{
-			$("#" + beforeOrAfterID + " #" + String(i + numSpaces - thumbList.length)).attr("src", thumbList[i]['url']);
+			$("#" + beforeOrAfterID + " #" + String(i + numSlots - thumbList.length)).attr("src", thumbList[i]['url']);
 		}
-        for(var i = 0; i < numSpaces - thumbList.length; i++)
+        for(var i = 0; i < numSlots - thumbList.length; i++)
         {
             $("#" + beforeOrAfterID + " #" + String(i)).attr("src", "");
         }

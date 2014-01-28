@@ -57,10 +57,8 @@ if (Meteor.isClient) {
 	{
 		var knob = $( "#slider_knob" );
 		var slider = $( "#slider_body" );
-		var sliderLeft = slider.offset().left;
-		var knobLeft = knob.offset().left;
-		var knobRel = knobLeft - sliderLeft;
-		return knobRel / (slider.width() - knob.width()/2);
+		
+        return (knob.offset().left - slider.offset().left) / (slider.width() - knob.width());
 	}
 
 	function setKnobPos(pos)

@@ -49,7 +49,6 @@ if (Meteor.isClient) {
 		d.setFullYear(2014);
 		d.setMonth(0);
 		d.setDate(22);
-		console.log(d.toString());
 		return d;
 	}
 
@@ -77,7 +76,6 @@ if (Meteor.isClient) {
 		{
 			var posn = Math.max(0, Math.min(pos, 1));
 			newPos = slider.offset().left + Math.round(posn*slider.width()) + knob.width()/2;
-			console.log(newPos);
 		}
 		
 		knob.offset({ left: newPos });
@@ -89,7 +87,6 @@ if (Meteor.isClient) {
 		var slider = $( "#slider_body" );
 		var msecs = (((date.getHours()*60) + date.getMinutes())*60 + date.getSeconds())*1000 + date.getMilliseconds(); 
 		var pos = msecs/(60*60*24*1000);
-		console.log(pos);
 		setKnobPos(pos);
 	}
 

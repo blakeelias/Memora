@@ -90,10 +90,8 @@ if (Meteor.isClient) {
 		setKnobPos(pos);
 	}
 
-	//Doesn't work yet and not using this
 	function setThumbs(thumbList, beforeOrAfterID, numSpaces)
 	{
-		//for(var i = numSpaces - thumbList.length; i < numSpaces; i++)
         for (var i = 0; i < thumbList.length; i++)
 		{
 			$("#" + beforeOrAfterID + " #" + String(i + numSpaces - thumbList.length)).attr("src", thumbList[i]['url']);

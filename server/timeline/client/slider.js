@@ -10,10 +10,6 @@ if (Meteor.isClient) {
 		
 		var knob = $( "#slider_knob" );
 		var slider = $( "#slider_body" );
-		
-		var sliderLeft = 0;
-		var knobLeft = 0;
-		var position = 0;
 
 		knob.draggable(
 		{
@@ -21,15 +17,11 @@ if (Meteor.isClient) {
 			axis: "x",
 			drag: function() 
 			{
-	        	sliderLeft = slider.offset().left;
-				knobLeft = knob.offset().left;
-				knobRel = knobLeft - sliderLeft;
-				position = knobRel / (slider.width() - knob.width()/2);
-				//updatePix(position);
+	        	
 			},
 			stop: function()
 			{
-				updatePix(photosNearDate(timeFromPos(position),8,8));
+				updatePix(photosNearDate(timeFromPos(getKnobPos()),8,8));
 			}
 		});
 
@@ -39,7 +31,7 @@ if (Meteor.isClient) {
 		});
 
 		$(window).resize(function(){
-			var stuff = setKnobPos(slider.offset().left +  Math.round(slider.width()*position));
+			var stuff = setKnobPos(slider.offset().left +  Math.round(slider.width()*getKnobPos()));
 		});
 	});
 
@@ -53,6 +45,16 @@ if (Meteor.isClient) {
 		d.setDate(22);
 		console.log(d.toString());
 		return d;
+	}
+
+	function getKnobPos()
+	{
+		var knob = $( "#slider_knob" );
+		var slider = $( "#slider_body" );
+		var sliderLeft = slider.offset().left;
+		var knobLeft = knob.offset().left;
+		var knobRel = knobLeft - sliderLeft;
+		return knobRel / (slider.width() - knob.width()/2);
 	}
 
 	function setKnobPos(pos)

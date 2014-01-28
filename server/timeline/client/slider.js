@@ -21,19 +21,24 @@ if (Meteor.isClient) {
 			},
 			stop: function()
 			{
-				updatePix(photosNearDate(timeFromPos(getKnobPos()),8,8));
+				updatePhotosFromSlider();
 			}
 		});
 
 		$("#slider_body").click(function(event)
 		{
 			setKnobPos(event.pageX);
+            updatePhotosFromSlider();
 		});
 
 		$(window).resize(function(){
 			var stuff = setKnobPos(slider.offset().left +  Math.round(slider.width()*getKnobPos()));
 		});
 	});
+
+    function updatePhotosFromSlider() {
+        updatePix(photosNearDate(timeFromPos(getKnobPos()),8,8));
+    }
 
 	function timeFromPos(pos)
 	{

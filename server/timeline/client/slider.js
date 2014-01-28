@@ -97,7 +97,7 @@ if (Meteor.isClient) {
 		}
         for(var i = 0; i < numSpaces - thumbList.length; i++)
         {
-            $("#" + beforeOrAfterID + " #" + String(i)).attr("src", "/spacer.gif");
+            $("#" + beforeOrAfterID + " #" + String(i)).attr("src", "");
         }
 	}
 

@@ -21,7 +21,6 @@ import android.widget.RemoteViews;
 
 import com.google.android.glass.timeline.LiveCard;
 import com.google.android.glass.timeline.LiveCard.PublishMode;
-import com.google.android.glass.timeline.TimelineManager;
 
 public class CameraTimerService extends Service {
 	
@@ -157,9 +156,8 @@ public class CameraTimerService extends Service {
 		
 	    if (mLiveCard == null) {
 	        String cardId = "my_card";
-	        TimelineManager tm = TimelineManager.from(context);
 	        
-	        mLiveCard = tm.createLiveCard(cardId);
+	        mLiveCard = new LiveCard(this, cardId);
 	        RemoteViews rv = new RemoteViews(context.getPackageName(), R.layout.activity_main);
 	        mLiveCard.setViews(rv);
 	        Intent intent = new Intent(context, MainActivity.class);

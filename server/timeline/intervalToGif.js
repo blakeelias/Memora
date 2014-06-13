@@ -7,25 +7,37 @@ function intervalToGif(datetime, interval, frequency){
 	//Determine count of images
 	var imageCount = (t1-t2)/(1000*frequency);
 	//call photosNearDate function to retrieve photos, note dependency here
-	var photos = photosNearDate(time, imageCount, 0);
-	//retrieve earliest photo url
-	var photo1url = photos[1][0].url;
+	var photos = photosNearDate(time, imageCount, 0)
+	//require FS
+	var fs = require('fs');
+	//create new directory for jpg files
 	var baseURL = '/photos';
-	var jpgFilenames = baseURL + 'image-%d.jpg[1-5]'//TODO: implement regex calling each file in the interval based on the filename, not sure how to do this
-	var outputFilename = placeholder.gif //TODO: determine output filename and location, also unclear
-	//Import Node imagemagick
+	var directoryURL = baseURL + t2.toString();
+	fs.mkdir(directoryURL, 0777 , function (error){
+			if (error) throw error;		
+		});
+	//iterate through jpg files, moving and renaming each
+	for (var i = 0; i < photos[1].length; i++){
+		fs.rename(photos[1][i].url, directoryURL + (i+1).toString(), function (error){
+			if (error) throw error;		
+		});
+	}
+	//create regex to reference each of the moved jpg files
+	var jpgFilenames = directoryURL + '%d.jpg[1-'+ photos[1].length.toString() + ']';
+	var outputFilename = t2.toString + '.gif'; 
+	//requre imagemagick
 	var im = require('imagemagick');
 	//Convert files to gif file
 	im.convert([jpgFilenames, outputFilename], 
-		function(err, stdout){
-		  if (err) throw err;
+		function(error, stdout){
+		  if (error) throw error;
 		  console.log('stdout:', stdout);
 	});
 	//Update photos to include animated gif
 	Photos.update(
         {
             'time_millis': time.getTime(),
-            'url': baseURL + '/' + outputFilename
+            'url': directoryURL + '/' + outputFilename
         },
         { $set : {}},
         {upsert: true});

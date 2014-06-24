@@ -1,0 +1,3 @@
+[submodule "wearscript-android"]
+	path = wearscript-android
+	url = git@github.com:blakeelias/wearscript-android.git

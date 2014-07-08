@@ -25,7 +25,7 @@ from pprint import pprint
 # On Windows, slashes may need to be written as escaped back-slashes (eg. "C:\\path\\to\sdk\platform-tools\adb.exe")
 #
 # Fill in ADB path here:
-ADB_PATH = "/Users/blake/Downloads/adt-bundle-mac-x86_64-20131030/sdk/platform-tools/adb"
+ADB_PATH = "adb"
 
 #######################################################################################
 #############################   DO NOT EDIT BELOW HERE   ##############################

@@ -31,7 +31,7 @@ ADB_PATH = "/Users/blake/Downloads/adt-bundle-mac-x86_64-20131030/sdk/platform-t
 #############################   DO NOT EDIT BELOW HERE   ##############################
 #######################################################################################
 
-AUTO_PHOTO_PATH = "/mnt/sdcard/DCIM/me/photos/"
+AUTO_PHOTO_PATH = "/storage/emulated/legacy/wearscript/data/"
 MANUAL_PHOTO_PATH = "/mnt/sdcard/DCIM/Camera/"
 
 def main():

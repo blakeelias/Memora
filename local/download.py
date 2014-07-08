@@ -47,6 +47,9 @@ def get_local_file_path():
 	except:
 		return os.path.abspath('.') + '/'
 
+def getOriginalPath():
+    return get_local_file_path() + 'original/'
+
 def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_path):
 	print('-'*30)
 	print('pull_manual_photos()')
@@ -78,8 +81,7 @@ def pull_auto_photos(auto_photo_path, local_photo_path):
 	print('-'*30)
 	print('pull_auto_photos()')
 	print('-'*30)
-	largePhotoPath = local_photo_path + 'large/'
-	call(['mkdir', largePhotoPath])
+	call(['mkdir', getOriginalPath()])
 	call([ADB_PATH, "pull", auto_photo_path, largePhotoPath])
 
 def copy_file_and_process(remote_photo_path, f, local_photo_path):

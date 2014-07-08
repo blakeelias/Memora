@@ -74,15 +74,7 @@ def pull_auto_photos(auto_photo_path, local_photo_path):
 	print('-'*30)
 	print('pull_auto_photos()')
 	print('-'*30)
-	auto_photos = check_output([ADB_PATH, "shell", "ls", auto_photo_path]).split('\n')
-	print('auto_photos')
-	pprint(auto_photos)
-	for f in auto_photos:
-		f = f.split('\r')[0]
-		print('copying ' + f)
-		copy_file_and_process(auto_photo_path, f, local_photo_path)
-		print('deleting ' + f)
-		call([ADB_PATH, "shell", "rm", auto_photo_path + f])
+	call([ADB_PATH, "pull", auto_photo_path, local_photo_path + 'large/'])
 
 def copy_file_and_process(remote_photo_path, f, local_photo_path):
 	call([ADB_PATH, "pull", remote_photo_path + f, local_photo_path])

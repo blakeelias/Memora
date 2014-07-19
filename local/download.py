@@ -82,7 +82,7 @@ def pull_auto_photos(auto_photo_path, local_photo_path):
 	print('pull_auto_photos()')
 	print('-'*30)
 	call(['mkdir', getOriginalPath()])
-	call([ADB_PATH, "pull", auto_photo_path, largePhotoPath])
+	call([ADB_PATH, "pull", auto_photo_path, getOriginalPath()])
 
 def copy_file_and_process(remote_photo_path, f, local_photo_path):
 	call([ADB_PATH, "pull", remote_photo_path + f, local_photo_path])

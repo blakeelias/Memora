@@ -26,7 +26,7 @@ function getFilesInPublicFolder(folder) {
      * Only to be run on server, not client.
      */
     var fs = Npm.require('fs');
-    return fs.readdirSync('../../../../../public/' + folder + '/');
+    return fs.readdirSync('/Users/blake/Pictures/memoraPhotos/' + folder + '/');
 }
 
 if (Meteor.isClient) {
@@ -45,12 +45,16 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
     Meteor.startup(function () {
-    var baseURL = '/photos';
+    var baseURL = 'previews';
     var filenames = getFilesInPublicFolder(baseURL).filter(function(filename) {
         return filename.indexOf('.jpg') > 0;
     });
+    console.log('in startup');
+    console.log('filenames: ');
+    console.log(filenames);
 
     for (i in filenames) {
+        console.log(filenames[i])
         Photos.update(
         {
             'time_millis': filenameToTimestamp(filenames[i]),
@@ -60,5 +64,8 @@ if (Meteor.isServer) {
         {upsert: true});
     }
     });
-}
 
+    function addPhotos(publicPath) {
+        var allFiles = getFilesInPublicFolder(publicPath);
+    }
+}

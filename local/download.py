@@ -37,7 +37,7 @@ MANUAL_PHOTO_PATH = "/mnt/sdcard/DCIM/Camera/"
 def main():
 	local_file_path = get_local_file_path()
 	last_manual_photo_path = local_file_path + "last_manual_photo.txt"
-	pull_manual_photos(MANUAL_PHOTO_PATH, local_file_path, last_manual_photo_path)
+	pull_manual_photos(MANUAL_PHOTO_PATH, local_file_path, last_manual_photo_path, False)
 	pull_auto_photos(AUTO_PHOTO_PATH, local_file_path)
 
 def get_local_file_path():
@@ -50,7 +50,7 @@ def get_local_file_path():
 def getOriginalPath():
     return get_local_file_path() + 'original/'
 
-def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_path):
+def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_path, downloadVideo):
 	print('-'*30)
 	print('pull_manual_photos()')
 	print('-'*30)
@@ -68,7 +68,7 @@ def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_pa
 
 	for f in manual_photos:
 		f = f.split('\r')[0]
-		if f > last_photo_name:
+		if f > last_photo_name and ('.mp4' not in f or downloadVideo):
 			print('copying ' + f)
 			copy_file_and_process(manual_photo_path, f, local_photo_path)
 			last_photo_name = f

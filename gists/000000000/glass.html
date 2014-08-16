@@ -1,0 +1,51 @@
+<html style="width:100%; height:100%; overflow:hidden">
+<head>
+<!-- You can include external scripts here like so... -->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.0/zepto.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>-->
+</head>
+<body style="width:100%; height:100%; overflow:hidden; margin:0" bgcolor="#000">
+<script>
+      
+</script>
+
+<!--canvas id="canvas" width="640" height="360" style="display:block"></canvas-->
+<img width="640" height="360" id="image" />
+
+<script>
+function server() {
+    WS.log('Welcome to WearScript');
+    WS.say('Welcome to WearScript');
+    WS.sound('SUCCESS');
+    
+    WS.cameraOnBackgroundUnsafe(30, 10000, 10000);
+    WS.audioRecordInterval(30);
+    WS.dataLog(true, false, .15);
+
+    var photos = true;
+    var audio = true;
+
+    WS.onGesture('TAP', function() {
+      var cardTree = new WS.cardTree();
+      /*cardTree.add('Turn photos ' + (photos ? 'off' : 'on'), undefined, undefined, function() {
+        photos = !photos;
+        WS.cameraOff();
+      });*/
+      cardTree.add('Turn audio ' + (audio ? 'off' : 'on'), undefined, undefined, function() {
+        audio = !audio;
+        WS.setAudioRecord(audio);
+        WS.showWebView();
+      });
+      WS.showCardTree(cardTree);
+    });
+
+}
+function main() {
+    if (WS.scriptVersion(1)) return;
+    //WS.serverConnect('{{WSUrl}}', server);
+    server();
+}
+window.onload = main;
+</script>
+</body>
+</html>

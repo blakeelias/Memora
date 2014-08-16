@@ -68,7 +68,7 @@ def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_pa
 
 	for f in manual_photos:
 		f = f.split('\r')[0]
-		if f > last_photo_name and ('.mp4' not in f or downloadVideo):
+		if f > last_photo_name and (downloadVideo or '.mp4' not in f):
 			print('copying ' + f)
 			copy_file_and_process(manual_photo_path, f, local_photo_path)
 			last_photo_name = f

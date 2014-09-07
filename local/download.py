@@ -50,6 +50,9 @@ def get_local_file_path():
 def getOriginalPath():
     return get_local_file_path() + 'original/'
 
+def fileList(path):
+	return [f.split('\r')[0] for f in check_output([ADB_PATH, "shell", "ls", path]).split('\n')]
+
 def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_path, downloadVideo):
 	print('-'*30)
 	print('pull_manual_photos()')
@@ -62,14 +65,12 @@ def pull_manual_photos(manual_photo_path, local_photo_path, last_manual_photo_pa
 		last_photo_name = ''
 	print('last_photo_name = %s' % last_photo_name)
 
-	manual_photos = check_output([ADB_PATH, "shell", "ls", manual_photo_path]).split('\n')
+	manual_photos = fileList(manual_photo_path)
 	print('manual_photos: ')
 	pprint(manual_photos)
 
 	for f in manual_photos:
-		f = f.split('\r')[0]
 		if f > last_photo_name and (downloadVideo or '.mp4' not in f):
-			print('copying ' + f)
 			copy_file_and_process(manual_photo_path, f, local_photo_path)
 			last_photo_name = f
 
@@ -84,10 +85,15 @@ def pull_auto_photos(auto_photo_path, local_photo_path):
 	call(['mkdir', getOriginalPath()])
 	#TODO: change below line to pull and remove each individual file in the folder,
 	# rather than pulling the whole folder
-	call([ADB_PATH, "pull", auto_photo_path, getOriginalPath()])
+	for f in fileList(auto_photo_path):
+		copy_file_and_process(auto_photo_path, f, getOriginalPath())
 
 def copy_file_and_process(remote_photo_path, f, local_photo_path):
-	call([ADB_PATH, "pull", remote_photo_path + f, local_photo_path])
+	print('copying ' + remote_photo_path + f)
+	returnCode = call([ADB_PATH, "pull", remote_photo_path + f, local_photo_path])
+	if returnCode == 0: # success!!
+		print('deleting ' + remote_photo_path + f)
+		call([ADB_PATH, "shell", "rm", remote_photo_path + f])
 
 if __name__ == '__main__':
 	main()

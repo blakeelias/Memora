@@ -18,25 +18,28 @@ function server() {
     WS.say('Welcome to WearScript');
     WS.sound('SUCCESS');
     
-    WS.cameraOnBackgroundUnsafe(30, 10000, 10000);
-    WS.audioRecordInterval(30);
+    WS.cameraOnBackgroundUnsafe(10, 10000, 10000);
+    //WS.audioRecordInterval(30);
     WS.dataLog(true, false, .15);
 
     var photos = true;
     var audio = true;
 
-    WS.onGesture('TAP', function() {
-      var cardTree = new WS.cardTree();
+    WS.gestureCallback('onGestureTAP', function() {
+      var cardTree = new WS.Cards();
       /*cardTree.add('Turn photos ' + (photos ? 'off' : 'on'), undefined, undefined, function() {
         photos = !photos;
         WS.cameraOff();
       });*/
+
+
       cardTree.add('Turn audio ' + (audio ? 'off' : 'on'), undefined, undefined, function() {
         audio = !audio;
         WS.setAudioRecord(audio);
-        WS.showWebView();
+        WS.displayWebView();
       });
-      WS.showCardTree(cardTree);
+      WS.cardTree(cardTree);
+      WS.displayCardTree();
     });
 
 }

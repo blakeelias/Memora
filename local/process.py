@@ -1,6 +1,6 @@
 from datetime import datetime
 from subprocess import call, check_output
-import Image
+from PIL import Image
 
 from download import get_local_file_path, getOriginalPath
 
@@ -8,14 +8,18 @@ def main():
     
     for line in check_output(['ls', getOriginalPath()]).split('\n'):
         photoFileName = line.split('\r')[0]
-        (prefix, suffix) = photoFileName.split('.')
+        try:
+            (prefix, suffix) = photoFileName.split('.')
+        except Exception as e:
+            print(e)
+            continue
         time, manual = getTime(prefix)
-        makeSizes(getOriginalPath() + '/' + photoFileName,
-            get_local_file_path(),
-            {'thumbs': 158, 'previews': 632},
-            newSubPath(time),
-            standardizedName(time, suffix, manual))
-
+        if datetime(2014, 8, 14) < time < datetime(2014, 8, 18):
+            makeSizes(getOriginalPath() + '/' + photoFileName,
+                get_local_file_path(),
+                {'thumbs': 158, 'previews': 632},
+                newSubPath(time),
+                standardizedName(time, suffix, manual))
 
 def getTime(filePrefix):
     '''Return the time indicated by a file name's prefix string (i.e., everything before the file extension).

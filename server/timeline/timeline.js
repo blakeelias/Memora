@@ -26,7 +26,7 @@ function getFilesInPublicFolder(folder) {
      * Only to be run on server, not client.
      */
     var fs = Npm.require('fs');
-    return fs.readdirSync('/Users/blake/Pictures/memoraPhotos/' + folder + '/');
+    return fs.readdirSync('/Users/blake/Pictures/' + folder + '/');
 }
 
 if (Meteor.isClient) {
@@ -45,7 +45,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
     Meteor.startup(function () {
-    var baseURL = 'previews';
+    var baseURL = 'Narrative Clip 2';
     var filenames = getFilesInPublicFolder(baseURL).filter(function(filename) {
         return filename.indexOf('.jpg') > 0;
     });
@@ -54,7 +54,7 @@ if (Meteor.isServer) {
     console.log(filenames);
 
     for (i in filenames) {
-        console.log(filenames[i])
+        console.log(filenames[i]);
         Photos.update(
         {
             'time_millis': filenameToTimestamp(filenames[i]),

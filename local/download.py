@@ -48,7 +48,7 @@ def get_local_file_path():
 		return os.path.abspath('.') + '/'
 
 def getOriginalPath():
-    return get_local_file_path() + 'original/'
+    return get_local_file_path()
 
 def fileList(path):
 	return [f.split('\r')[0] for f in check_output([ADB_PATH, "shell", "ls", path]).split('\n')]

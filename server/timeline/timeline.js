@@ -45,7 +45,7 @@ if (Meteor.isClient) {
 
 if (Meteor.isServer) {
     Meteor.startup(function () {
-    var baseURL = 'Narrative Clip 2';
+    var baseURL = 'Narrative Clip';
     var filenames = getFilesInPublicFolder(baseURL).filter(function(filename) {
         return filename.indexOf('.jpg') > 0;
     });
